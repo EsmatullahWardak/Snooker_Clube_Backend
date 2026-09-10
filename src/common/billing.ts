@@ -33,31 +33,35 @@ export function calculateSettlement(
   flatDiscountAmount: Decimal,
   adjustedTotalAmount?: Decimal,
 ): SettlementResult {
+  const adjustedAmount = (adjustedTotalAmount ?? baseAmount).toDecimalPlaces(
+    2,
+    Decimal.ROUND_HALF_UP,
+  );
+  if (adjustedAmount.isNegative()) {
+    throw new RangeError('The adjusted total cannot be negative.');
+  }
+
   const discountAmount = flatDiscountAmount.toDecimalPlaces(
     2,
     Decimal.ROUND_HALF_UP,
   );
-  if (discountAmount.isNegative() || discountAmount.greaterThan(baseAmount)) {
+  if (
+    discountAmount.isNegative() ||
+    discountAmount.greaterThan(adjustedAmount)
+  ) {
     throw new RangeError(
-      'The flat discount must be between zero and the base amount.',
+      'The flat discount must be between zero and the adjusted total.',
     );
   }
 
-  const discountedTotal = baseAmount
+  const finalAmount = adjustedAmount
     .sub(discountAmount)
     .toDecimalPlaces(2, Decimal.ROUND_HALF_UP);
-  const finalAmount = (adjustedTotalAmount ?? discountedTotal).toDecimalPlaces(
-    2,
-    Decimal.ROUND_HALF_UP,
-  );
-  if (finalAmount.isNegative()) {
-    throw new RangeError('The adjusted total cannot be negative.');
-  }
 
   return {
     discountAmount,
-    manualAdjustmentAmount: finalAmount
-      .sub(discountedTotal)
+    manualAdjustmentAmount: adjustedAmount
+      .sub(baseAmount)
       .toDecimalPlaces(2, Decimal.ROUND_HALF_UP),
     finalAmount,
   };

@@ -19,7 +19,7 @@ describe('calculateBilling', () => {
     expect(result.baseAmount.toString()).toBe('0');
   });
 
-  it('subtracts a flat discount and records a manual total adjustment', () => {
+  it('subtracts the flat discount from the cashier override', () => {
     const result = calculateSettlement(
       new Decimal(150),
       new Decimal(20),
@@ -27,13 +27,35 @@ describe('calculateBilling', () => {
     );
 
     expect(result.discountAmount.toString()).toBe('20');
-    expect(result.manualAdjustmentAmount.toString()).toBe('10');
-    expect(result.finalAmount.toString()).toBe('140');
+    expect(result.manualAdjustmentAmount.toString()).toBe('-10');
+    expect(result.finalAmount.toString()).toBe('120');
   });
 
-  it('rejects a flat discount greater than the base amount', () => {
+  it('calculates the final slip total from the displayed override and discount', () => {
+    const result = calculateSettlement(
+      new Decimal(8.83),
+      new Decimal(4),
+      new Decimal(9),
+    );
+
+    expect(result.manualAdjustmentAmount.toString()).toBe('0.17');
+    expect(result.finalAmount.toString()).toBe('5');
+  });
+
+  it('subtracts the flat discount from the base when no override is supplied', () => {
+    const result = calculateSettlement(new Decimal(150), new Decimal(20));
+
+    expect(result.manualAdjustmentAmount.toString()).toBe('0');
+    expect(result.finalAmount.toString()).toBe('130');
+  });
+
+  it('rejects a flat discount greater than the adjusted total', () => {
     expect(() =>
-      calculateSettlement(new Decimal(100), new Decimal(100.01)),
-    ).toThrow('between zero and the base amount');
+      calculateSettlement(
+        new Decimal(100),
+        new Decimal(90.01),
+        new Decimal(90),
+      ),
+    ).toThrow('between zero and the adjusted total');
   });
 });
