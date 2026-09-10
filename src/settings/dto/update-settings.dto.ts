@@ -3,6 +3,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsTimeZone,
   Length,
   Max,
   MaxLength,
@@ -28,13 +29,6 @@ export class UpdateSettingsDto {
   defaultHourlyRate?: number;
 
   @IsOptional()
-  @Type(() => Number)
-  @IsNumber({ maxDecimalPlaces: 2 })
-  @Min(0)
-  @Max(100)
-  proPlayerDiscount?: number;
-
-  @IsOptional()
   @Transform(({ value }: { value: unknown }) =>
     typeof value === 'string' ? value.trim().toUpperCase() : value,
   )
@@ -47,6 +41,7 @@ export class UpdateSettingsDto {
     typeof value === 'string' ? value.trim() : value,
   )
   @IsString()
+  @IsTimeZone()
   @MaxLength(60)
   timezone?: string;
 }

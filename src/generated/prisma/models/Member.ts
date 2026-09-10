@@ -599,11 +599,6 @@ export type MemberMinOrderByAggregateInput = {
   deletedAt?: Prisma.SortOrder
 }
 
-export type MemberScalarRelationFilter = {
-  is?: Prisma.MemberWhereInput
-  isNot?: Prisma.MemberWhereInput
-}
-
 export type MemberNullableScalarRelationFilter = {
   is?: Prisma.MemberWhereInput | null
   isNot?: Prisma.MemberWhereInput | null
@@ -745,10 +740,12 @@ export type MemberCreateNestedOneWithoutGamesInput = {
   connect?: Prisma.MemberWhereUniqueInput
 }
 
-export type MemberUpdateOneRequiredWithoutGamesNestedInput = {
+export type MemberUpdateOneWithoutGamesNestedInput = {
   create?: Prisma.XOR<Prisma.MemberCreateWithoutGamesInput, Prisma.MemberUncheckedCreateWithoutGamesInput>
   connectOrCreate?: Prisma.MemberCreateOrConnectWithoutGamesInput
   upsert?: Prisma.MemberUpsertWithoutGamesInput
+  disconnect?: Prisma.MemberWhereInput | boolean
+  delete?: Prisma.MemberWhereInput | boolean
   connect?: Prisma.MemberWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.MemberUpdateToOneWithWhereWithoutGamesInput, Prisma.MemberUpdateWithoutGamesInput>, Prisma.MemberUncheckedUpdateWithoutGamesInput>
 }

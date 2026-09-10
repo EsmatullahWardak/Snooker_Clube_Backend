@@ -38,8 +38,14 @@ enum TableStatus {
 
 enum GameStatus {
   IN_PROGRESS
+  PAUSED
   COMPLETED
   CANCELLED
+}
+
+enum LoanStatus {
+  PENDING
+  PAID
 }
 
 enum PaymentMethod {
@@ -111,6 +117,8 @@ model User {
   expensesCreated  Expense[]     @relation("ExpenseCreatedBy")
   expensesUpdated  Expense[]     @relation("ExpenseUpdatedBy")
   settingsUpdated  ClubSetting[] @relation("SettingUpdatedBy")
+  loansCreated     Loan[]         @relation("LoanCreatedBy")
+  loansUpdated     Loan[]         @relation("LoanUpdatedBy")
   auditLogs        AuditLog[]
 
   @@index([status, deletedAt])
@@ -121,7 +129,6 @@ model MembershipType {
   id              String         @id @default(uuid()) @db.Uuid
   code            MembershipCode @unique
   name            String         @db.VarChar(100)
-  discountPercent Decimal        @default(0) @db.Decimal(5, 2)
   isActive        Boolean        @default(true)
   members         Member[]
   createdAt       DateTime       @default(now())
@@ -179,17 +186,19 @@ model GameSession {
   code                    String         @unique @db.VarChar(40)
   tableId                 String         @db.Uuid
   table                   SnookerTable   @relation(fields: [tableId], references: [id], onDelete: Restrict)
-  memberId                String         @db.Uuid
-  member                  Member         @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  memberId                String?        @db.Uuid
+  member                  Member?        @relation(fields: [memberId], references: [id], onDelete: Restrict)
   status                  GameStatus     @default(IN_PROGRESS)
   startTime               DateTime
   endTime                 DateTime?
+  pausedAt                DateTime?
+  totalPausedSeconds      Int            @default(0)
   durationSeconds         Int?
   hourlyRateSnapshot      Decimal        @db.Decimal(12, 2)
-  membershipCodeSnapshot  MembershipCode
-  discountPercentSnapshot Decimal        @db.Decimal(5, 2)
+  membershipCodeSnapshot  MembershipCode?
   baseAmount              Decimal?       @db.Decimal(12, 2)
   discountAmount          Decimal?       @db.Decimal(12, 2)
+  manualAdjustmentAmount  Decimal        @default(0) @db.Decimal(12, 2)
   finalAmount             Decimal?       @db.Decimal(12, 2)
   paymentStatus           PaymentStatus  @default(PENDING)
   createdById             String         @db.Uuid
@@ -268,9 +277,31 @@ model Expense {
   @@map("expenses")
 }
 
+model Loan {
+  id           String     @id @default(uuid()) @db.Uuid
+  playerName   String     @db.VarChar(150)
+  fatherName   String?    @db.VarChar(150)
+  phoneNumber  String?    @db.VarChar(30)
+  email        String?    @db.VarChar(255)
+  address      String?
+  amount       Decimal    @db.Decimal(12, 2)
+  status       LoanStatus @default(PENDING)
+  createdById  String     @db.Uuid
+  createdBy    User       @relation("LoanCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  updatedById  String     @db.Uuid
+  updatedBy    User       @relation("LoanUpdatedBy", fields: [updatedById], references: [id], onDelete: Restrict)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([status, createdAt])
+  @@index([playerName])
+  @@index([phoneNumber])
+  @@map("loans")
+}
+
 model ClubSetting {
   id                String   @id @default("default") @db.VarChar(30)
-  clubName          String   @default("Kabul Snooker Club") @db.VarChar(150)
+  clubName          String   @default("Sultan snooker club") @db.VarChar(150)
   currency          String   @default("AFN") @db.VarChar(3)
   defaultHourlyRate Decimal  @default(100) @db.Decimal(12, 2)
   timezone          String   @default("Asia/Kabul") @db.VarChar(60)

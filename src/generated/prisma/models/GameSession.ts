@@ -27,20 +27,22 @@ export type AggregateGameSession = {
 }
 
 export type GameSessionAvgAggregateOutputType = {
+  totalPausedSeconds: number | null
   durationSeconds: number | null
   hourlyRateSnapshot: runtime.Decimal | null
-  discountPercentSnapshot: runtime.Decimal | null
   baseAmount: runtime.Decimal | null
   discountAmount: runtime.Decimal | null
+  manualAdjustmentAmount: runtime.Decimal | null
   finalAmount: runtime.Decimal | null
 }
 
 export type GameSessionSumAggregateOutputType = {
+  totalPausedSeconds: number | null
   durationSeconds: number | null
   hourlyRateSnapshot: runtime.Decimal | null
-  discountPercentSnapshot: runtime.Decimal | null
   baseAmount: runtime.Decimal | null
   discountAmount: runtime.Decimal | null
+  manualAdjustmentAmount: runtime.Decimal | null
   finalAmount: runtime.Decimal | null
 }
 
@@ -52,12 +54,14 @@ export type GameSessionMinAggregateOutputType = {
   status: $Enums.GameStatus | null
   startTime: Date | null
   endTime: Date | null
+  pausedAt: Date | null
+  totalPausedSeconds: number | null
   durationSeconds: number | null
   hourlyRateSnapshot: runtime.Decimal | null
   membershipCodeSnapshot: $Enums.MembershipCode | null
-  discountPercentSnapshot: runtime.Decimal | null
   baseAmount: runtime.Decimal | null
   discountAmount: runtime.Decimal | null
+  manualAdjustmentAmount: runtime.Decimal | null
   finalAmount: runtime.Decimal | null
   paymentStatus: $Enums.PaymentStatus | null
   createdById: string | null
@@ -74,12 +78,14 @@ export type GameSessionMaxAggregateOutputType = {
   status: $Enums.GameStatus | null
   startTime: Date | null
   endTime: Date | null
+  pausedAt: Date | null
+  totalPausedSeconds: number | null
   durationSeconds: number | null
   hourlyRateSnapshot: runtime.Decimal | null
   membershipCodeSnapshot: $Enums.MembershipCode | null
-  discountPercentSnapshot: runtime.Decimal | null
   baseAmount: runtime.Decimal | null
   discountAmount: runtime.Decimal | null
+  manualAdjustmentAmount: runtime.Decimal | null
   finalAmount: runtime.Decimal | null
   paymentStatus: $Enums.PaymentStatus | null
   createdById: string | null
@@ -96,12 +102,14 @@ export type GameSessionCountAggregateOutputType = {
   status: number
   startTime: number
   endTime: number
+  pausedAt: number
+  totalPausedSeconds: number
   durationSeconds: number
   hourlyRateSnapshot: number
   membershipCodeSnapshot: number
-  discountPercentSnapshot: number
   baseAmount: number
   discountAmount: number
+  manualAdjustmentAmount: number
   finalAmount: number
   paymentStatus: number
   createdById: number
@@ -113,20 +121,22 @@ export type GameSessionCountAggregateOutputType = {
 
 
 export type GameSessionAvgAggregateInputType = {
+  totalPausedSeconds?: true
   durationSeconds?: true
   hourlyRateSnapshot?: true
-  discountPercentSnapshot?: true
   baseAmount?: true
   discountAmount?: true
+  manualAdjustmentAmount?: true
   finalAmount?: true
 }
 
 export type GameSessionSumAggregateInputType = {
+  totalPausedSeconds?: true
   durationSeconds?: true
   hourlyRateSnapshot?: true
-  discountPercentSnapshot?: true
   baseAmount?: true
   discountAmount?: true
+  manualAdjustmentAmount?: true
   finalAmount?: true
 }
 
@@ -138,12 +148,14 @@ export type GameSessionMinAggregateInputType = {
   status?: true
   startTime?: true
   endTime?: true
+  pausedAt?: true
+  totalPausedSeconds?: true
   durationSeconds?: true
   hourlyRateSnapshot?: true
   membershipCodeSnapshot?: true
-  discountPercentSnapshot?: true
   baseAmount?: true
   discountAmount?: true
+  manualAdjustmentAmount?: true
   finalAmount?: true
   paymentStatus?: true
   createdById?: true
@@ -160,12 +172,14 @@ export type GameSessionMaxAggregateInputType = {
   status?: true
   startTime?: true
   endTime?: true
+  pausedAt?: true
+  totalPausedSeconds?: true
   durationSeconds?: true
   hourlyRateSnapshot?: true
   membershipCodeSnapshot?: true
-  discountPercentSnapshot?: true
   baseAmount?: true
   discountAmount?: true
+  manualAdjustmentAmount?: true
   finalAmount?: true
   paymentStatus?: true
   createdById?: true
@@ -182,12 +196,14 @@ export type GameSessionCountAggregateInputType = {
   status?: true
   startTime?: true
   endTime?: true
+  pausedAt?: true
+  totalPausedSeconds?: true
   durationSeconds?: true
   hourlyRateSnapshot?: true
   membershipCodeSnapshot?: true
-  discountPercentSnapshot?: true
   baseAmount?: true
   discountAmount?: true
+  manualAdjustmentAmount?: true
   finalAmount?: true
   paymentStatus?: true
   createdById?: true
@@ -287,16 +303,18 @@ export type GameSessionGroupByOutputType = {
   id: string
   code: string
   tableId: string
-  memberId: string
+  memberId: string | null
   status: $Enums.GameStatus
   startTime: Date
   endTime: Date | null
+  pausedAt: Date | null
+  totalPausedSeconds: number
   durationSeconds: number | null
   hourlyRateSnapshot: runtime.Decimal
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal
+  membershipCodeSnapshot: $Enums.MembershipCode | null
   baseAmount: runtime.Decimal | null
   discountAmount: runtime.Decimal | null
+  manualAdjustmentAmount: runtime.Decimal
   finalAmount: runtime.Decimal | null
   paymentStatus: $Enums.PaymentStatus
   createdById: string
@@ -332,16 +350,18 @@ export type GameSessionWhereInput = {
   id?: Prisma.UuidFilter<"GameSession"> | string
   code?: Prisma.StringFilter<"GameSession"> | string
   tableId?: Prisma.UuidFilter<"GameSession"> | string
-  memberId?: Prisma.UuidFilter<"GameSession"> | string
+  memberId?: Prisma.UuidNullableFilter<"GameSession"> | string | null
   status?: Prisma.EnumGameStatusFilter<"GameSession"> | $Enums.GameStatus
   startTime?: Prisma.DateTimeFilter<"GameSession"> | Date | string
   endTime?: Prisma.DateTimeNullableFilter<"GameSession"> | Date | string | null
+  pausedAt?: Prisma.DateTimeNullableFilter<"GameSession"> | Date | string | null
+  totalPausedSeconds?: Prisma.IntFilter<"GameSession"> | number
   durationSeconds?: Prisma.IntNullableFilter<"GameSession"> | number | null
   hourlyRateSnapshot?: Prisma.DecimalFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFilter<"GameSession"> | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.EnumMembershipCodeNullableFilter<"GameSession"> | $Enums.MembershipCode | null
   baseAmount?: Prisma.DecimalNullableFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.DecimalNullableFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.DecimalNullableFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFilter<"GameSession"> | $Enums.PaymentStatus
   createdById?: Prisma.UuidFilter<"GameSession"> | string
@@ -349,7 +369,7 @@ export type GameSessionWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"GameSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GameSession"> | Date | string
   table?: Prisma.XOR<Prisma.SnookerTableScalarRelationFilter, Prisma.SnookerTableWhereInput>
-  member?: Prisma.XOR<Prisma.MemberScalarRelationFilter, Prisma.MemberWhereInput>
+  member?: Prisma.XOR<Prisma.MemberNullableScalarRelationFilter, Prisma.MemberWhereInput> | null
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   endedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
@@ -359,16 +379,18 @@ export type GameSessionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   tableId?: Prisma.SortOrder
-  memberId?: Prisma.SortOrder
+  memberId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  pausedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalPausedSeconds?: Prisma.SortOrder
   durationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   hourlyRateSnapshot?: Prisma.SortOrder
-  membershipCodeSnapshot?: Prisma.SortOrder
-  discountPercentSnapshot?: Prisma.SortOrder
+  membershipCodeSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
   baseAmount?: Prisma.SortOrderInput | Prisma.SortOrder
   discountAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualAdjustmentAmount?: Prisma.SortOrder
   finalAmount?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -389,16 +411,18 @@ export type GameSessionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.GameSessionWhereInput[]
   NOT?: Prisma.GameSessionWhereInput | Prisma.GameSessionWhereInput[]
   tableId?: Prisma.UuidFilter<"GameSession"> | string
-  memberId?: Prisma.UuidFilter<"GameSession"> | string
+  memberId?: Prisma.UuidNullableFilter<"GameSession"> | string | null
   status?: Prisma.EnumGameStatusFilter<"GameSession"> | $Enums.GameStatus
   startTime?: Prisma.DateTimeFilter<"GameSession"> | Date | string
   endTime?: Prisma.DateTimeNullableFilter<"GameSession"> | Date | string | null
+  pausedAt?: Prisma.DateTimeNullableFilter<"GameSession"> | Date | string | null
+  totalPausedSeconds?: Prisma.IntFilter<"GameSession"> | number
   durationSeconds?: Prisma.IntNullableFilter<"GameSession"> | number | null
   hourlyRateSnapshot?: Prisma.DecimalFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFilter<"GameSession"> | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.EnumMembershipCodeNullableFilter<"GameSession"> | $Enums.MembershipCode | null
   baseAmount?: Prisma.DecimalNullableFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.DecimalNullableFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.DecimalNullableFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFilter<"GameSession"> | $Enums.PaymentStatus
   createdById?: Prisma.UuidFilter<"GameSession"> | string
@@ -406,7 +430,7 @@ export type GameSessionWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"GameSession"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GameSession"> | Date | string
   table?: Prisma.XOR<Prisma.SnookerTableScalarRelationFilter, Prisma.SnookerTableWhereInput>
-  member?: Prisma.XOR<Prisma.MemberScalarRelationFilter, Prisma.MemberWhereInput>
+  member?: Prisma.XOR<Prisma.MemberNullableScalarRelationFilter, Prisma.MemberWhereInput> | null
   createdBy?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   endedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
@@ -416,16 +440,18 @@ export type GameSessionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   tableId?: Prisma.SortOrder
-  memberId?: Prisma.SortOrder
+  memberId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrderInput | Prisma.SortOrder
+  pausedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalPausedSeconds?: Prisma.SortOrder
   durationSeconds?: Prisma.SortOrderInput | Prisma.SortOrder
   hourlyRateSnapshot?: Prisma.SortOrder
-  membershipCodeSnapshot?: Prisma.SortOrder
-  discountPercentSnapshot?: Prisma.SortOrder
+  membershipCodeSnapshot?: Prisma.SortOrderInput | Prisma.SortOrder
   baseAmount?: Prisma.SortOrderInput | Prisma.SortOrder
   discountAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  manualAdjustmentAmount?: Prisma.SortOrder
   finalAmount?: Prisma.SortOrderInput | Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -446,16 +472,18 @@ export type GameSessionScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"GameSession"> | string
   code?: Prisma.StringWithAggregatesFilter<"GameSession"> | string
   tableId?: Prisma.UuidWithAggregatesFilter<"GameSession"> | string
-  memberId?: Prisma.UuidWithAggregatesFilter<"GameSession"> | string
+  memberId?: Prisma.UuidNullableWithAggregatesFilter<"GameSession"> | string | null
   status?: Prisma.EnumGameStatusWithAggregatesFilter<"GameSession"> | $Enums.GameStatus
   startTime?: Prisma.DateTimeWithAggregatesFilter<"GameSession"> | Date | string
   endTime?: Prisma.DateTimeNullableWithAggregatesFilter<"GameSession"> | Date | string | null
+  pausedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"GameSession"> | Date | string | null
+  totalPausedSeconds?: Prisma.IntWithAggregatesFilter<"GameSession"> | number
   durationSeconds?: Prisma.IntNullableWithAggregatesFilter<"GameSession"> | number | null
   hourlyRateSnapshot?: Prisma.DecimalWithAggregatesFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeWithAggregatesFilter<"GameSession"> | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalWithAggregatesFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.EnumMembershipCodeNullableWithAggregatesFilter<"GameSession"> | $Enums.MembershipCode | null
   baseAmount?: Prisma.DecimalNullableWithAggregatesFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.DecimalNullableWithAggregatesFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalWithAggregatesFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.DecimalNullableWithAggregatesFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusWithAggregatesFilter<"GameSession"> | $Enums.PaymentStatus
   createdById?: Prisma.UuidWithAggregatesFilter<"GameSession"> | string
@@ -470,18 +498,20 @@ export type GameSessionCreateInput = {
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   table: Prisma.SnookerTableCreateNestedOneWithoutGameSessionsInput
-  member: Prisma.MemberCreateNestedOneWithoutGamesInput
+  member?: Prisma.MemberCreateNestedOneWithoutGamesInput
   createdBy: Prisma.UserCreateNestedOneWithoutGamesCreatedInput
   endedBy?: Prisma.UserCreateNestedOneWithoutGamesEndedInput
   payment?: Prisma.PaymentCreateNestedOneWithoutGameInput
@@ -491,16 +521,18 @@ export type GameSessionUncheckedCreateInput = {
   id?: string
   code: string
   tableId: string
-  memberId: string
+  memberId?: string | null
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdById: string
@@ -516,18 +548,20 @@ export type GameSessionUpdateInput = {
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   table?: Prisma.SnookerTableUpdateOneRequiredWithoutGameSessionsNestedInput
-  member?: Prisma.MemberUpdateOneRequiredWithoutGamesNestedInput
+  member?: Prisma.MemberUpdateOneWithoutGamesNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutGamesCreatedNestedInput
   endedBy?: Prisma.UserUpdateOneWithoutGamesEndedNestedInput
   payment?: Prisma.PaymentUpdateOneWithoutGameNestedInput
@@ -537,16 +571,18 @@ export type GameSessionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   tableId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -560,16 +596,18 @@ export type GameSessionCreateManyInput = {
   id?: string
   code: string
   tableId: string
-  memberId: string
+  memberId?: string | null
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdById: string
@@ -584,12 +622,14 @@ export type GameSessionUpdateManyMutationInput = {
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -600,16 +640,18 @@ export type GameSessionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   tableId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -636,12 +678,14 @@ export type GameSessionCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  pausedAt?: Prisma.SortOrder
+  totalPausedSeconds?: Prisma.SortOrder
   durationSeconds?: Prisma.SortOrder
   hourlyRateSnapshot?: Prisma.SortOrder
   membershipCodeSnapshot?: Prisma.SortOrder
-  discountPercentSnapshot?: Prisma.SortOrder
   baseAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
+  manualAdjustmentAmount?: Prisma.SortOrder
   finalAmount?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -651,11 +695,12 @@ export type GameSessionCountOrderByAggregateInput = {
 }
 
 export type GameSessionAvgOrderByAggregateInput = {
+  totalPausedSeconds?: Prisma.SortOrder
   durationSeconds?: Prisma.SortOrder
   hourlyRateSnapshot?: Prisma.SortOrder
-  discountPercentSnapshot?: Prisma.SortOrder
   baseAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
+  manualAdjustmentAmount?: Prisma.SortOrder
   finalAmount?: Prisma.SortOrder
 }
 
@@ -667,12 +712,14 @@ export type GameSessionMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  pausedAt?: Prisma.SortOrder
+  totalPausedSeconds?: Prisma.SortOrder
   durationSeconds?: Prisma.SortOrder
   hourlyRateSnapshot?: Prisma.SortOrder
   membershipCodeSnapshot?: Prisma.SortOrder
-  discountPercentSnapshot?: Prisma.SortOrder
   baseAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
+  manualAdjustmentAmount?: Prisma.SortOrder
   finalAmount?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -689,12 +736,14 @@ export type GameSessionMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   startTime?: Prisma.SortOrder
   endTime?: Prisma.SortOrder
+  pausedAt?: Prisma.SortOrder
+  totalPausedSeconds?: Prisma.SortOrder
   durationSeconds?: Prisma.SortOrder
   hourlyRateSnapshot?: Prisma.SortOrder
   membershipCodeSnapshot?: Prisma.SortOrder
-  discountPercentSnapshot?: Prisma.SortOrder
   baseAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
+  manualAdjustmentAmount?: Prisma.SortOrder
   finalAmount?: Prisma.SortOrder
   paymentStatus?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
@@ -704,11 +753,12 @@ export type GameSessionMinOrderByAggregateInput = {
 }
 
 export type GameSessionSumOrderByAggregateInput = {
+  totalPausedSeconds?: Prisma.SortOrder
   durationSeconds?: Prisma.SortOrder
   hourlyRateSnapshot?: Prisma.SortOrder
-  discountPercentSnapshot?: Prisma.SortOrder
   baseAmount?: Prisma.SortOrder
   discountAmount?: Prisma.SortOrder
+  manualAdjustmentAmount?: Prisma.SortOrder
   finalAmount?: Prisma.SortOrder
 }
 
@@ -897,6 +947,18 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
+export type NullableEnumMembershipCodeFieldUpdateOperationsInput = {
+  set?: $Enums.MembershipCode | null
+}
+
 export type EnumPaymentStatusFieldUpdateOperationsInput = {
   set?: $Enums.PaymentStatus
 }
@@ -923,18 +985,20 @@ export type GameSessionCreateWithoutCreatedByInput = {
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   table: Prisma.SnookerTableCreateNestedOneWithoutGameSessionsInput
-  member: Prisma.MemberCreateNestedOneWithoutGamesInput
+  member?: Prisma.MemberCreateNestedOneWithoutGamesInput
   endedBy?: Prisma.UserCreateNestedOneWithoutGamesEndedInput
   payment?: Prisma.PaymentCreateNestedOneWithoutGameInput
 }
@@ -943,16 +1007,18 @@ export type GameSessionUncheckedCreateWithoutCreatedByInput = {
   id?: string
   code: string
   tableId: string
-  memberId: string
+  memberId?: string | null
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   endedById?: string | null
@@ -977,18 +1043,20 @@ export type GameSessionCreateWithoutEndedByInput = {
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   table: Prisma.SnookerTableCreateNestedOneWithoutGameSessionsInput
-  member: Prisma.MemberCreateNestedOneWithoutGamesInput
+  member?: Prisma.MemberCreateNestedOneWithoutGamesInput
   createdBy: Prisma.UserCreateNestedOneWithoutGamesCreatedInput
   payment?: Prisma.PaymentCreateNestedOneWithoutGameInput
 }
@@ -997,16 +1065,18 @@ export type GameSessionUncheckedCreateWithoutEndedByInput = {
   id?: string
   code: string
   tableId: string
-  memberId: string
+  memberId?: string | null
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdById: string
@@ -1048,16 +1118,18 @@ export type GameSessionScalarWhereInput = {
   id?: Prisma.UuidFilter<"GameSession"> | string
   code?: Prisma.StringFilter<"GameSession"> | string
   tableId?: Prisma.UuidFilter<"GameSession"> | string
-  memberId?: Prisma.UuidFilter<"GameSession"> | string
+  memberId?: Prisma.UuidNullableFilter<"GameSession"> | string | null
   status?: Prisma.EnumGameStatusFilter<"GameSession"> | $Enums.GameStatus
   startTime?: Prisma.DateTimeFilter<"GameSession"> | Date | string
   endTime?: Prisma.DateTimeNullableFilter<"GameSession"> | Date | string | null
+  pausedAt?: Prisma.DateTimeNullableFilter<"GameSession"> | Date | string | null
+  totalPausedSeconds?: Prisma.IntFilter<"GameSession"> | number
   durationSeconds?: Prisma.IntNullableFilter<"GameSession"> | number | null
   hourlyRateSnapshot?: Prisma.DecimalFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFilter<"GameSession"> | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.EnumMembershipCodeNullableFilter<"GameSession"> | $Enums.MembershipCode | null
   baseAmount?: Prisma.DecimalNullableFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.DecimalNullableFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.DecimalNullableFilter<"GameSession"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFilter<"GameSession"> | $Enums.PaymentStatus
   createdById?: Prisma.UuidFilter<"GameSession"> | string
@@ -1088,12 +1160,14 @@ export type GameSessionCreateWithoutMemberInput = {
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdAt?: Date | string
@@ -1111,12 +1185,14 @@ export type GameSessionUncheckedCreateWithoutMemberInput = {
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdById: string
@@ -1158,17 +1234,19 @@ export type GameSessionCreateWithoutTableInput = {
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
-  member: Prisma.MemberCreateNestedOneWithoutGamesInput
+  member?: Prisma.MemberCreateNestedOneWithoutGamesInput
   createdBy: Prisma.UserCreateNestedOneWithoutGamesCreatedInput
   endedBy?: Prisma.UserCreateNestedOneWithoutGamesEndedInput
   payment?: Prisma.PaymentCreateNestedOneWithoutGameInput
@@ -1177,16 +1255,18 @@ export type GameSessionCreateWithoutTableInput = {
 export type GameSessionUncheckedCreateWithoutTableInput = {
   id?: string
   code: string
-  memberId: string
+  memberId?: string | null
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdById: string
@@ -1228,18 +1308,20 @@ export type GameSessionCreateWithoutPaymentInput = {
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   table: Prisma.SnookerTableCreateNestedOneWithoutGameSessionsInput
-  member: Prisma.MemberCreateNestedOneWithoutGamesInput
+  member?: Prisma.MemberCreateNestedOneWithoutGamesInput
   createdBy: Prisma.UserCreateNestedOneWithoutGamesCreatedInput
   endedBy?: Prisma.UserCreateNestedOneWithoutGamesEndedInput
 }
@@ -1248,16 +1330,18 @@ export type GameSessionUncheckedCreateWithoutPaymentInput = {
   id?: string
   code: string
   tableId: string
-  memberId: string
+  memberId?: string | null
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdById: string
@@ -1288,18 +1372,20 @@ export type GameSessionUpdateWithoutPaymentInput = {
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   table?: Prisma.SnookerTableUpdateOneRequiredWithoutGameSessionsNestedInput
-  member?: Prisma.MemberUpdateOneRequiredWithoutGamesNestedInput
+  member?: Prisma.MemberUpdateOneWithoutGamesNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutGamesCreatedNestedInput
   endedBy?: Prisma.UserUpdateOneWithoutGamesEndedNestedInput
 }
@@ -1308,16 +1394,18 @@ export type GameSessionUncheckedUpdateWithoutPaymentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   tableId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1330,16 +1418,18 @@ export type GameSessionCreateManyCreatedByInput = {
   id?: string
   code: string
   tableId: string
-  memberId: string
+  memberId?: string | null
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   endedById?: string | null
@@ -1351,16 +1441,18 @@ export type GameSessionCreateManyEndedByInput = {
   id?: string
   code: string
   tableId: string
-  memberId: string
+  memberId?: string | null
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdById: string
@@ -1374,18 +1466,20 @@ export type GameSessionUpdateWithoutCreatedByInput = {
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   table?: Prisma.SnookerTableUpdateOneRequiredWithoutGameSessionsNestedInput
-  member?: Prisma.MemberUpdateOneRequiredWithoutGamesNestedInput
+  member?: Prisma.MemberUpdateOneWithoutGamesNestedInput
   endedBy?: Prisma.UserUpdateOneWithoutGamesEndedNestedInput
   payment?: Prisma.PaymentUpdateOneWithoutGameNestedInput
 }
@@ -1394,16 +1488,18 @@ export type GameSessionUncheckedUpdateWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   tableId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   endedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1416,16 +1512,18 @@ export type GameSessionUncheckedUpdateManyWithoutCreatedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   tableId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   endedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1439,18 +1537,20 @@ export type GameSessionUpdateWithoutEndedByInput = {
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   table?: Prisma.SnookerTableUpdateOneRequiredWithoutGameSessionsNestedInput
-  member?: Prisma.MemberUpdateOneRequiredWithoutGamesNestedInput
+  member?: Prisma.MemberUpdateOneWithoutGamesNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutGamesCreatedNestedInput
   payment?: Prisma.PaymentUpdateOneWithoutGameNestedInput
 }
@@ -1459,16 +1559,18 @@ export type GameSessionUncheckedUpdateWithoutEndedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   tableId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1481,16 +1583,18 @@ export type GameSessionUncheckedUpdateManyWithoutEndedByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   tableId?: Prisma.StringFieldUpdateOperationsInput | string
-  memberId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1505,12 +1609,14 @@ export type GameSessionCreateManyMemberInput = {
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdById: string
@@ -1525,12 +1631,14 @@ export type GameSessionUpdateWithoutMemberInput = {
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1548,12 +1656,14 @@ export type GameSessionUncheckedUpdateWithoutMemberInput = {
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1570,12 +1680,14 @@ export type GameSessionUncheckedUpdateManyWithoutMemberInput = {
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1587,16 +1699,18 @@ export type GameSessionUncheckedUpdateManyWithoutMemberInput = {
 export type GameSessionCreateManyTableInput = {
   id?: string
   code: string
-  memberId: string
+  memberId?: string | null
   status?: $Enums.GameStatus
   startTime: Date | string
   endTime?: Date | string | null
+  pausedAt?: Date | string | null
+  totalPausedSeconds?: number
   durationSeconds?: number | null
   hourlyRateSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot: $Enums.MembershipCode
-  discountPercentSnapshot: runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: $Enums.MembershipCode | null
   baseAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: $Enums.PaymentStatus
   createdById: string
@@ -1611,17 +1725,19 @@ export type GameSessionUpdateWithoutTableInput = {
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  member?: Prisma.MemberUpdateOneRequiredWithoutGamesNestedInput
+  member?: Prisma.MemberUpdateOneWithoutGamesNestedInput
   createdBy?: Prisma.UserUpdateOneRequiredWithoutGamesCreatedNestedInput
   endedBy?: Prisma.UserUpdateOneWithoutGamesEndedNestedInput
   payment?: Prisma.PaymentUpdateOneWithoutGameNestedInput
@@ -1630,16 +1746,18 @@ export type GameSessionUpdateWithoutTableInput = {
 export type GameSessionUncheckedUpdateWithoutTableInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
-  memberId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1652,16 +1770,18 @@ export type GameSessionUncheckedUpdateWithoutTableInput = {
 export type GameSessionUncheckedUpdateManyWithoutTableInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
-  memberId?: Prisma.StringFieldUpdateOperationsInput | string
+  memberId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumGameStatusFieldUpdateOperationsInput | $Enums.GameStatus
   startTime?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endTime?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  pausedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  totalPausedSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   durationSeconds?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   hourlyRateSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  membershipCodeSnapshot?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
-  discountPercentSnapshot?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  membershipCodeSnapshot?: Prisma.NullableEnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode | null
   baseAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   discountAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  manualAdjustmentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   finalAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   paymentStatus?: Prisma.EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
   createdById?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1680,12 +1800,14 @@ export type GameSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   status?: boolean
   startTime?: boolean
   endTime?: boolean
+  pausedAt?: boolean
+  totalPausedSeconds?: boolean
   durationSeconds?: boolean
   hourlyRateSnapshot?: boolean
   membershipCodeSnapshot?: boolean
-  discountPercentSnapshot?: boolean
   baseAmount?: boolean
   discountAmount?: boolean
+  manualAdjustmentAmount?: boolean
   finalAmount?: boolean
   paymentStatus?: boolean
   createdById?: boolean
@@ -1693,7 +1815,7 @@ export type GameSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   createdAt?: boolean
   updatedAt?: boolean
   table?: boolean | Prisma.SnookerTableDefaultArgs<ExtArgs>
-  member?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
+  member?: boolean | Prisma.GameSession$memberArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   endedBy?: boolean | Prisma.GameSession$endedByArgs<ExtArgs>
   payment?: boolean | Prisma.GameSession$paymentArgs<ExtArgs>
@@ -1707,12 +1829,14 @@ export type GameSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   status?: boolean
   startTime?: boolean
   endTime?: boolean
+  pausedAt?: boolean
+  totalPausedSeconds?: boolean
   durationSeconds?: boolean
   hourlyRateSnapshot?: boolean
   membershipCodeSnapshot?: boolean
-  discountPercentSnapshot?: boolean
   baseAmount?: boolean
   discountAmount?: boolean
+  manualAdjustmentAmount?: boolean
   finalAmount?: boolean
   paymentStatus?: boolean
   createdById?: boolean
@@ -1720,7 +1844,7 @@ export type GameSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   table?: boolean | Prisma.SnookerTableDefaultArgs<ExtArgs>
-  member?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
+  member?: boolean | Prisma.GameSession$memberArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   endedBy?: boolean | Prisma.GameSession$endedByArgs<ExtArgs>
 }, ExtArgs["result"]["gameSession"]>
@@ -1733,12 +1857,14 @@ export type GameSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   status?: boolean
   startTime?: boolean
   endTime?: boolean
+  pausedAt?: boolean
+  totalPausedSeconds?: boolean
   durationSeconds?: boolean
   hourlyRateSnapshot?: boolean
   membershipCodeSnapshot?: boolean
-  discountPercentSnapshot?: boolean
   baseAmount?: boolean
   discountAmount?: boolean
+  manualAdjustmentAmount?: boolean
   finalAmount?: boolean
   paymentStatus?: boolean
   createdById?: boolean
@@ -1746,7 +1872,7 @@ export type GameSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   createdAt?: boolean
   updatedAt?: boolean
   table?: boolean | Prisma.SnookerTableDefaultArgs<ExtArgs>
-  member?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
+  member?: boolean | Prisma.GameSession$memberArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   endedBy?: boolean | Prisma.GameSession$endedByArgs<ExtArgs>
 }, ExtArgs["result"]["gameSession"]>
@@ -1759,12 +1885,14 @@ export type GameSessionSelectScalar = {
   status?: boolean
   startTime?: boolean
   endTime?: boolean
+  pausedAt?: boolean
+  totalPausedSeconds?: boolean
   durationSeconds?: boolean
   hourlyRateSnapshot?: boolean
   membershipCodeSnapshot?: boolean
-  discountPercentSnapshot?: boolean
   baseAmount?: boolean
   discountAmount?: boolean
+  manualAdjustmentAmount?: boolean
   finalAmount?: boolean
   paymentStatus?: boolean
   createdById?: boolean
@@ -1773,23 +1901,23 @@ export type GameSessionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type GameSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "tableId" | "memberId" | "status" | "startTime" | "endTime" | "durationSeconds" | "hourlyRateSnapshot" | "membershipCodeSnapshot" | "discountPercentSnapshot" | "baseAmount" | "discountAmount" | "finalAmount" | "paymentStatus" | "createdById" | "endedById" | "createdAt" | "updatedAt", ExtArgs["result"]["gameSession"]>
+export type GameSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "tableId" | "memberId" | "status" | "startTime" | "endTime" | "pausedAt" | "totalPausedSeconds" | "durationSeconds" | "hourlyRateSnapshot" | "membershipCodeSnapshot" | "baseAmount" | "discountAmount" | "manualAdjustmentAmount" | "finalAmount" | "paymentStatus" | "createdById" | "endedById" | "createdAt" | "updatedAt", ExtArgs["result"]["gameSession"]>
 export type GameSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   table?: boolean | Prisma.SnookerTableDefaultArgs<ExtArgs>
-  member?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
+  member?: boolean | Prisma.GameSession$memberArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   endedBy?: boolean | Prisma.GameSession$endedByArgs<ExtArgs>
   payment?: boolean | Prisma.GameSession$paymentArgs<ExtArgs>
 }
 export type GameSessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   table?: boolean | Prisma.SnookerTableDefaultArgs<ExtArgs>
-  member?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
+  member?: boolean | Prisma.GameSession$memberArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   endedBy?: boolean | Prisma.GameSession$endedByArgs<ExtArgs>
 }
 export type GameSessionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   table?: boolean | Prisma.SnookerTableDefaultArgs<ExtArgs>
-  member?: boolean | Prisma.MemberDefaultArgs<ExtArgs>
+  member?: boolean | Prisma.GameSession$memberArgs<ExtArgs>
   createdBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   endedBy?: boolean | Prisma.GameSession$endedByArgs<ExtArgs>
 }
@@ -1798,7 +1926,7 @@ export type $GameSessionPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "GameSession"
   objects: {
     table: Prisma.$SnookerTablePayload<ExtArgs>
-    member: Prisma.$MemberPayload<ExtArgs>
+    member: Prisma.$MemberPayload<ExtArgs> | null
     createdBy: Prisma.$UserPayload<ExtArgs>
     endedBy: Prisma.$UserPayload<ExtArgs> | null
     payment: Prisma.$PaymentPayload<ExtArgs> | null
@@ -1807,16 +1935,18 @@ export type $GameSessionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     id: string
     code: string
     tableId: string
-    memberId: string
+    memberId: string | null
     status: $Enums.GameStatus
     startTime: Date
     endTime: Date | null
+    pausedAt: Date | null
+    totalPausedSeconds: number
     durationSeconds: number | null
     hourlyRateSnapshot: runtime.Decimal
-    membershipCodeSnapshot: $Enums.MembershipCode
-    discountPercentSnapshot: runtime.Decimal
+    membershipCodeSnapshot: $Enums.MembershipCode | null
     baseAmount: runtime.Decimal | null
     discountAmount: runtime.Decimal | null
+    manualAdjustmentAmount: runtime.Decimal
     finalAmount: runtime.Decimal | null
     paymentStatus: $Enums.PaymentStatus
     createdById: string
@@ -2218,7 +2348,7 @@ readonly fields: GameSessionFieldRefs;
 export interface Prisma__GameSessionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   table<T extends Prisma.SnookerTableDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SnookerTableDefaultArgs<ExtArgs>>): Prisma.Prisma__SnookerTableClient<runtime.Types.Result.GetResult<Prisma.$SnookerTablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  member<T extends Prisma.MemberDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MemberDefaultArgs<ExtArgs>>): Prisma.Prisma__MemberClient<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  member<T extends Prisma.GameSession$memberArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GameSession$memberArgs<ExtArgs>>): Prisma.Prisma__MemberClient<runtime.Types.Result.GetResult<Prisma.$MemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   createdBy<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   endedBy<T extends Prisma.GameSession$endedByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GameSession$endedByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   payment<T extends Prisma.GameSession$paymentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GameSession$paymentArgs<ExtArgs>>): Prisma.Prisma__PaymentClient<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -2258,12 +2388,14 @@ export interface GameSessionFieldRefs {
   readonly status: Prisma.FieldRef<"GameSession", 'GameStatus'>
   readonly startTime: Prisma.FieldRef<"GameSession", 'DateTime'>
   readonly endTime: Prisma.FieldRef<"GameSession", 'DateTime'>
+  readonly pausedAt: Prisma.FieldRef<"GameSession", 'DateTime'>
+  readonly totalPausedSeconds: Prisma.FieldRef<"GameSession", 'Int'>
   readonly durationSeconds: Prisma.FieldRef<"GameSession", 'Int'>
   readonly hourlyRateSnapshot: Prisma.FieldRef<"GameSession", 'Decimal'>
   readonly membershipCodeSnapshot: Prisma.FieldRef<"GameSession", 'MembershipCode'>
-  readonly discountPercentSnapshot: Prisma.FieldRef<"GameSession", 'Decimal'>
   readonly baseAmount: Prisma.FieldRef<"GameSession", 'Decimal'>
   readonly discountAmount: Prisma.FieldRef<"GameSession", 'Decimal'>
+  readonly manualAdjustmentAmount: Prisma.FieldRef<"GameSession", 'Decimal'>
   readonly finalAmount: Prisma.FieldRef<"GameSession", 'Decimal'>
   readonly paymentStatus: Prisma.FieldRef<"GameSession", 'PaymentStatus'>
   readonly createdById: Prisma.FieldRef<"GameSession", 'String'>
@@ -2668,6 +2800,25 @@ export type GameSessionDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many GameSessions to delete.
    */
   limit?: number
+}
+
+/**
+ * GameSession.member
+ */
+export type GameSession$memberArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Member
+   */
+  select?: Prisma.MemberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Member
+   */
+  omit?: Prisma.MemberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MemberInclude<ExtArgs> | null
+  where?: Prisma.MemberWhereInput
 }
 
 /**

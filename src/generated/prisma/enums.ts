@@ -55,11 +55,20 @@ export type TableStatus = (typeof TableStatus)[keyof typeof TableStatus]
 
 export const GameStatus = {
   IN_PROGRESS: 'IN_PROGRESS',
+  PAUSED: 'PAUSED',
   COMPLETED: 'COMPLETED',
   CANCELLED: 'CANCELLED'
 } as const
 
 export type GameStatus = (typeof GameStatus)[keyof typeof GameStatus]
+
+
+export const LoanStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID'
+} as const
+
+export type LoanStatus = (typeof LoanStatus)[keyof typeof LoanStatus]
 
 
 export const PaymentMethod = {

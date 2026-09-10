@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AuditService } from '../audit/audit.service';
 import { paginationMeta } from '../common/dto/pagination.dto';
+import { databaseDate, shiftDateKey, zonedDateKey } from '../common/time';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import {
@@ -30,18 +31,18 @@ export class ExpensesService {
   }
 
   async overview() {
-    const now = new Date(Date.now() + 4.5 * 60 * 60 * 1000);
-    const today = new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+    const settings = await this.prisma.clubSetting.findUniqueOrThrow({
+      where: { id: 'default' },
+      select: { timezone: true },
+    });
+    const todayKey = zonedDateKey(new Date(), settings.timezone);
+    const today = databaseDate(todayKey);
+    const tomorrow = databaseDate(shiftDateKey(todayKey, 1));
+    const week = databaseDate(
+      shiftDateKey(todayKey, -((today.getUTCDay() + 6) % 7)),
     );
-    const tomorrow = new Date(today);
-    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
-    const week = new Date(today);
-    week.setUTCDate(week.getUTCDate() - ((week.getUTCDay() + 6) % 7));
-    const month = new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1),
-    );
-    const year = new Date(Date.UTC(now.getUTCFullYear(), 0, 1));
+    const month = databaseDate(`${todayKey.slice(0, 7)}-01`);
+    const year = databaseDate(`${todayKey.slice(0, 4)}-01-01`);
     const aggregateFor = (from: Date) =>
       this.prisma.expense.aggregate({
         where: { expenseDate: { gte: from, lt: tomorrow } },
@@ -119,8 +120,14 @@ export class ExpensesService {
       ...(query.from || query.to
         ? {
             expenseDate: {
-              ...(query.from ? { gte: new Date(query.from) } : {}),
-              ...(query.to ? { lte: new Date(query.to) } : {}),
+              ...(query.from
+                ? { gte: databaseDate(query.from.slice(0, 10)) }
+                : {}),
+              ...(query.to
+                ? {
+                    lt: databaseDate(shiftDateKey(query.to.slice(0, 10), 1)),
+                  }
+                : {}),
             },
           }
         : {}),

@@ -37,6 +37,8 @@ async function main() {
     'expenses.read',
     'expenses.create',
     'expenses.update',
+    'loans.read',
+    'loans.write',
     'payments.read',
     'reports.read',
     'staff.manage',
@@ -67,6 +69,8 @@ async function main() {
       'games.write',
       'expenses.read',
       'expenses.create',
+      'loans.read',
+      'loans.write',
     ],
   };
 
@@ -140,7 +144,6 @@ async function main() {
       create: {
         code: MembershipCode.STANDARD,
         name: 'Standard',
-        discountPercent: 0,
       },
     }),
     prisma.membershipType.upsert({
@@ -149,7 +152,6 @@ async function main() {
       create: {
         code: MembershipCode.PRO_PLAYER,
         name: 'Pro Player',
-        discountPercent: 20,
       },
     }),
   ]);
@@ -191,7 +193,11 @@ async function main() {
   await prisma.clubSetting.upsert({
     where: { id: 'default' },
     update: {},
-    create: { id: 'default', defaultHourlyRate: 100 },
+    create: {
+      id: 'default',
+      clubName: 'Sultan snooker club',
+      defaultHourlyRate: 100,
+    },
   });
 
   const standard = memberships.find(

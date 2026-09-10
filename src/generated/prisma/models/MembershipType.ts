@@ -20,25 +20,14 @@ export type MembershipTypeModel = runtime.Types.Result.DefaultSelection<Prisma.$
 
 export type AggregateMembershipType = {
   _count: MembershipTypeCountAggregateOutputType | null
-  _avg: MembershipTypeAvgAggregateOutputType | null
-  _sum: MembershipTypeSumAggregateOutputType | null
   _min: MembershipTypeMinAggregateOutputType | null
   _max: MembershipTypeMaxAggregateOutputType | null
-}
-
-export type MembershipTypeAvgAggregateOutputType = {
-  discountPercent: runtime.Decimal | null
-}
-
-export type MembershipTypeSumAggregateOutputType = {
-  discountPercent: runtime.Decimal | null
 }
 
 export type MembershipTypeMinAggregateOutputType = {
   id: string | null
   code: $Enums.MembershipCode | null
   name: string | null
-  discountPercent: runtime.Decimal | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -48,7 +37,6 @@ export type MembershipTypeMaxAggregateOutputType = {
   id: string | null
   code: $Enums.MembershipCode | null
   name: string | null
-  discountPercent: runtime.Decimal | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -58,7 +46,6 @@ export type MembershipTypeCountAggregateOutputType = {
   id: number
   code: number
   name: number
-  discountPercent: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -66,19 +53,10 @@ export type MembershipTypeCountAggregateOutputType = {
 }
 
 
-export type MembershipTypeAvgAggregateInputType = {
-  discountPercent?: true
-}
-
-export type MembershipTypeSumAggregateInputType = {
-  discountPercent?: true
-}
-
 export type MembershipTypeMinAggregateInputType = {
   id?: true
   code?: true
   name?: true
-  discountPercent?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -88,7 +66,6 @@ export type MembershipTypeMaxAggregateInputType = {
   id?: true
   code?: true
   name?: true
-  discountPercent?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -98,7 +75,6 @@ export type MembershipTypeCountAggregateInputType = {
   id?: true
   code?: true
   name?: true
-  discountPercent?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -143,18 +119,6 @@ export type MembershipTypeAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: MembershipTypeAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: MembershipTypeSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: MembershipTypeMinAggregateInputType
@@ -185,8 +149,6 @@ export type MembershipTypeGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   _count?: MembershipTypeCountAggregateInputType | true
-  _avg?: MembershipTypeAvgAggregateInputType
-  _sum?: MembershipTypeSumAggregateInputType
   _min?: MembershipTypeMinAggregateInputType
   _max?: MembershipTypeMaxAggregateInputType
 }
@@ -195,13 +157,10 @@ export type MembershipTypeGroupByOutputType = {
   id: string
   code: $Enums.MembershipCode
   name: string
-  discountPercent: runtime.Decimal
   isActive: boolean
   createdAt: Date
   updatedAt: Date
   _count: MembershipTypeCountAggregateOutputType | null
-  _avg: MembershipTypeAvgAggregateOutputType | null
-  _sum: MembershipTypeSumAggregateOutputType | null
   _min: MembershipTypeMinAggregateOutputType | null
   _max: MembershipTypeMaxAggregateOutputType | null
 }
@@ -228,7 +187,6 @@ export type MembershipTypeWhereInput = {
   id?: Prisma.UuidFilter<"MembershipType"> | string
   code?: Prisma.EnumMembershipCodeFilter<"MembershipType"> | $Enums.MembershipCode
   name?: Prisma.StringFilter<"MembershipType"> | string
-  discountPercent?: Prisma.DecimalFilter<"MembershipType"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFilter<"MembershipType"> | boolean
   createdAt?: Prisma.DateTimeFilter<"MembershipType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MembershipType"> | Date | string
@@ -239,7 +197,6 @@ export type MembershipTypeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  discountPercent?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -253,7 +210,6 @@ export type MembershipTypeWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.MembershipTypeWhereInput[]
   NOT?: Prisma.MembershipTypeWhereInput | Prisma.MembershipTypeWhereInput[]
   name?: Prisma.StringFilter<"MembershipType"> | string
-  discountPercent?: Prisma.DecimalFilter<"MembershipType"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFilter<"MembershipType"> | boolean
   createdAt?: Prisma.DateTimeFilter<"MembershipType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MembershipType"> | Date | string
@@ -264,15 +220,12 @@ export type MembershipTypeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  discountPercent?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.MembershipTypeCountOrderByAggregateInput
-  _avg?: Prisma.MembershipTypeAvgOrderByAggregateInput
   _max?: Prisma.MembershipTypeMaxOrderByAggregateInput
   _min?: Prisma.MembershipTypeMinOrderByAggregateInput
-  _sum?: Prisma.MembershipTypeSumOrderByAggregateInput
 }
 
 export type MembershipTypeScalarWhereWithAggregatesInput = {
@@ -282,7 +235,6 @@ export type MembershipTypeScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"MembershipType"> | string
   code?: Prisma.EnumMembershipCodeWithAggregatesFilter<"MembershipType"> | $Enums.MembershipCode
   name?: Prisma.StringWithAggregatesFilter<"MembershipType"> | string
-  discountPercent?: Prisma.DecimalWithAggregatesFilter<"MembershipType"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolWithAggregatesFilter<"MembershipType"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MembershipType"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"MembershipType"> | Date | string
@@ -292,7 +244,6 @@ export type MembershipTypeCreateInput = {
   id?: string
   code: $Enums.MembershipCode
   name: string
-  discountPercent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -303,7 +254,6 @@ export type MembershipTypeUncheckedCreateInput = {
   id?: string
   code: $Enums.MembershipCode
   name: string
-  discountPercent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -314,7 +264,6 @@ export type MembershipTypeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  discountPercent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -325,7 +274,6 @@ export type MembershipTypeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  discountPercent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -336,7 +284,6 @@ export type MembershipTypeCreateManyInput = {
   id?: string
   code: $Enums.MembershipCode
   name: string
-  discountPercent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -346,7 +293,6 @@ export type MembershipTypeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  discountPercent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -356,7 +302,6 @@ export type MembershipTypeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  discountPercent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -366,21 +311,15 @@ export type MembershipTypeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  discountPercent?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type MembershipTypeAvgOrderByAggregateInput = {
-  discountPercent?: Prisma.SortOrder
 }
 
 export type MembershipTypeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  discountPercent?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -390,14 +329,9 @@ export type MembershipTypeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   code?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  discountPercent?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type MembershipTypeSumOrderByAggregateInput = {
-  discountPercent?: Prisma.SortOrder
 }
 
 export type MembershipTypeScalarRelationFilter = {
@@ -407,14 +341,6 @@ export type MembershipTypeScalarRelationFilter = {
 
 export type EnumMembershipCodeFieldUpdateOperationsInput = {
   set?: $Enums.MembershipCode
-}
-
-export type DecimalFieldUpdateOperationsInput = {
-  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
-  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type BoolFieldUpdateOperationsInput = {
@@ -439,7 +365,6 @@ export type MembershipTypeCreateWithoutMembersInput = {
   id?: string
   code: $Enums.MembershipCode
   name: string
-  discountPercent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -449,7 +374,6 @@ export type MembershipTypeUncheckedCreateWithoutMembersInput = {
   id?: string
   code: $Enums.MembershipCode
   name: string
-  discountPercent?: runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -475,7 +399,6 @@ export type MembershipTypeUpdateWithoutMembersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  discountPercent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -485,7 +408,6 @@ export type MembershipTypeUncheckedUpdateWithoutMembersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.EnumMembershipCodeFieldUpdateOperationsInput | $Enums.MembershipCode
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  discountPercent?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -526,7 +448,6 @@ export type MembershipTypeSelect<ExtArgs extends runtime.Types.Extensions.Intern
   id?: boolean
   code?: boolean
   name?: boolean
-  discountPercent?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -538,7 +459,6 @@ export type MembershipTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   id?: boolean
   code?: boolean
   name?: boolean
-  discountPercent?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -548,7 +468,6 @@ export type MembershipTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   id?: boolean
   code?: boolean
   name?: boolean
-  discountPercent?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -558,13 +477,12 @@ export type MembershipTypeSelectScalar = {
   id?: boolean
   code?: boolean
   name?: boolean
-  discountPercent?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type MembershipTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "discountPercent" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["membershipType"]>
+export type MembershipTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "code" | "name" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["membershipType"]>
 export type MembershipTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   members?: boolean | Prisma.MembershipType$membersArgs<ExtArgs>
   _count?: boolean | Prisma.MembershipTypeCountOutputTypeDefaultArgs<ExtArgs>
@@ -581,7 +499,6 @@ export type $MembershipTypePayload<ExtArgs extends runtime.Types.Extensions.Inte
     id: string
     code: $Enums.MembershipCode
     name: string
-    discountPercent: runtime.Decimal
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -1012,7 +929,6 @@ export interface MembershipTypeFieldRefs {
   readonly id: Prisma.FieldRef<"MembershipType", 'String'>
   readonly code: Prisma.FieldRef<"MembershipType", 'MembershipCode'>
   readonly name: Prisma.FieldRef<"MembershipType", 'String'>
-  readonly discountPercent: Prisma.FieldRef<"MembershipType", 'Decimal'>
   readonly isActive: Prisma.FieldRef<"MembershipType", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"MembershipType", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"MembershipType", 'DateTime'>

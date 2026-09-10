@@ -10,6 +10,7 @@ import { RolesGuard } from './common/guards/roles.guard';
 import { validateEnvironment } from './config/env.validation';
 import { ExpensesModule } from './expenses/expenses.module';
 import { GamesModule } from './games/games.module';
+import { LoansModule } from './loans/loans.module';
 import { MembersModule } from './members/members.module';
 import { PaymentsModule } from './payments/payments.module';
 import { PrismaModule } from './prisma/prisma.module';
@@ -32,6 +33,7 @@ import { TablesModule } from './tables/tables.module';
     MembersModule,
     TablesModule,
     GamesModule,
+    LoansModule,
     PaymentsModule,
     ExpensesModule,
     ReportsModule,

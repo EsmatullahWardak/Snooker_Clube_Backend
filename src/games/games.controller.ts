@@ -42,6 +42,22 @@ export class GamesController {
     return this.games.end(id, dto, user.id);
   }
 
+  @Post(':id/pause')
+  pause(
+    @Param('id', ParseUUIDPipe) id: string,
+    @CurrentUser() user: AuthenticatedUser,
+  ) {
+    return this.games.pause(id, user.id);
+  }
+
+  @Post(':id/resume')
+  resume(
+    @Param('id', ParseUUIDPipe) id: string,
+    @CurrentUser() user: AuthenticatedUser,
+  ) {
+    return this.games.resume(id, user.id);
+  }
+
   @Roles(RoleName.ADMIN, RoleName.MANAGER)
   @Post(':id/cancel')
   cancel(

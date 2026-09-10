@@ -247,6 +247,8 @@ export type UserWhereInput = {
   expensesCreated?: Prisma.ExpenseListRelationFilter
   expensesUpdated?: Prisma.ExpenseListRelationFilter
   settingsUpdated?: Prisma.ClubSettingListRelationFilter
+  loansCreated?: Prisma.LoanListRelationFilter
+  loansUpdated?: Prisma.LoanListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
 }
 
@@ -272,6 +274,8 @@ export type UserOrderByWithRelationInput = {
   expensesCreated?: Prisma.ExpenseOrderByRelationAggregateInput
   expensesUpdated?: Prisma.ExpenseOrderByRelationAggregateInput
   settingsUpdated?: Prisma.ClubSettingOrderByRelationAggregateInput
+  loansCreated?: Prisma.LoanOrderByRelationAggregateInput
+  loansUpdated?: Prisma.LoanOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
 }
 
@@ -300,6 +304,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   expensesCreated?: Prisma.ExpenseListRelationFilter
   expensesUpdated?: Prisma.ExpenseListRelationFilter
   settingsUpdated?: Prisma.ClubSettingListRelationFilter
+  loansCreated?: Prisma.LoanListRelationFilter
+  loansUpdated?: Prisma.LoanListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
 }, "id" | "email">
 
@@ -360,6 +366,8 @@ export type UserCreateInput = {
   expensesCreated?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
 }
 
@@ -384,6 +392,8 @@ export type UserUncheckedCreateInput = {
   expensesCreated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanUncheckedCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanUncheckedCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
 }
 
@@ -408,6 +418,8 @@ export type UserUpdateInput = {
   expensesCreated?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
 }
 
@@ -432,6 +444,8 @@ export type UserUncheckedUpdateInput = {
   expensesCreated?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUncheckedUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUncheckedUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUncheckedUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
@@ -694,6 +708,34 @@ export type UserUpdateOneRequiredWithoutExpensesUpdatedNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExpensesUpdatedInput, Prisma.UserUpdateWithoutExpensesUpdatedInput>, Prisma.UserUncheckedUpdateWithoutExpensesUpdatedInput>
 }
 
+export type UserCreateNestedOneWithoutLoansCreatedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLoansCreatedInput, Prisma.UserUncheckedCreateWithoutLoansCreatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLoansCreatedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutLoansUpdatedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLoansUpdatedInput, Prisma.UserUncheckedCreateWithoutLoansUpdatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLoansUpdatedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutLoansCreatedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLoansCreatedInput, Prisma.UserUncheckedCreateWithoutLoansCreatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLoansCreatedInput
+  upsert?: Prisma.UserUpsertWithoutLoansCreatedInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLoansCreatedInput, Prisma.UserUpdateWithoutLoansCreatedInput>, Prisma.UserUncheckedUpdateWithoutLoansCreatedInput>
+}
+
+export type UserUpdateOneRequiredWithoutLoansUpdatedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLoansUpdatedInput, Prisma.UserUncheckedCreateWithoutLoansUpdatedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLoansUpdatedInput
+  upsert?: Prisma.UserUpsertWithoutLoansUpdatedInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLoansUpdatedInput, Prisma.UserUpdateWithoutLoansUpdatedInput>, Prisma.UserUncheckedUpdateWithoutLoansUpdatedInput>
+}
+
 export type UserCreateNestedOneWithoutSettingsUpdatedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutSettingsUpdatedInput, Prisma.UserUncheckedCreateWithoutSettingsUpdatedInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutSettingsUpdatedInput
@@ -746,6 +788,8 @@ export type UserCreateWithoutRoleInput = {
   expensesCreated?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
 }
 
@@ -769,6 +813,8 @@ export type UserUncheckedCreateWithoutRoleInput = {
   expensesCreated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanUncheckedCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanUncheckedCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
 }
 
@@ -836,6 +882,8 @@ export type UserCreateWithoutMembersCreatedInput = {
   expensesCreated?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
 }
 
@@ -859,6 +907,8 @@ export type UserUncheckedCreateWithoutMembersCreatedInput = {
   expensesCreated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanUncheckedCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanUncheckedCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
 }
 
@@ -887,6 +937,8 @@ export type UserCreateWithoutMembersUpdatedInput = {
   expensesCreated?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
 }
 
@@ -910,6 +962,8 @@ export type UserUncheckedCreateWithoutMembersUpdatedInput = {
   expensesCreated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanUncheckedCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanUncheckedCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
 }
 
@@ -949,6 +1003,8 @@ export type UserUpdateWithoutMembersCreatedInput = {
   expensesCreated?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
 }
 
@@ -972,6 +1028,8 @@ export type UserUncheckedUpdateWithoutMembersCreatedInput = {
   expensesCreated?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUncheckedUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUncheckedUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUncheckedUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
@@ -1006,6 +1064,8 @@ export type UserUpdateWithoutMembersUpdatedInput = {
   expensesCreated?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
 }
 
@@ -1029,6 +1089,8 @@ export type UserUncheckedUpdateWithoutMembersUpdatedInput = {
   expensesCreated?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUncheckedUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUncheckedUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUncheckedUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
@@ -1052,6 +1114,8 @@ export type UserCreateWithoutGamesCreatedInput = {
   expensesCreated?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
 }
 
@@ -1075,6 +1139,8 @@ export type UserUncheckedCreateWithoutGamesCreatedInput = {
   expensesCreated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanUncheckedCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanUncheckedCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
 }
 
@@ -1103,6 +1169,8 @@ export type UserCreateWithoutGamesEndedInput = {
   expensesCreated?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
 }
 
@@ -1126,6 +1194,8 @@ export type UserUncheckedCreateWithoutGamesEndedInput = {
   expensesCreated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanUncheckedCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanUncheckedCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
 }
 
@@ -1165,6 +1235,8 @@ export type UserUpdateWithoutGamesCreatedInput = {
   expensesCreated?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
 }
 
@@ -1188,6 +1260,8 @@ export type UserUncheckedUpdateWithoutGamesCreatedInput = {
   expensesCreated?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUncheckedUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUncheckedUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUncheckedUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
@@ -1222,6 +1296,8 @@ export type UserUpdateWithoutGamesEndedInput = {
   expensesCreated?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
 }
 
@@ -1245,6 +1321,8 @@ export type UserUncheckedUpdateWithoutGamesEndedInput = {
   expensesCreated?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUncheckedUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUncheckedUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUncheckedUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
@@ -1268,6 +1346,8 @@ export type UserCreateWithoutPaymentsReceivedInput = {
   expensesCreated?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
 }
 
@@ -1291,6 +1371,8 @@ export type UserUncheckedCreateWithoutPaymentsReceivedInput = {
   expensesCreated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanUncheckedCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanUncheckedCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
 }
 
@@ -1330,6 +1412,8 @@ export type UserUpdateWithoutPaymentsReceivedInput = {
   expensesCreated?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
 }
 
@@ -1353,6 +1437,8 @@ export type UserUncheckedUpdateWithoutPaymentsReceivedInput = {
   expensesCreated?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUncheckedUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUncheckedUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUncheckedUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
@@ -1376,6 +1462,8 @@ export type UserCreateWithoutExpensesCreatedInput = {
   paymentsReceived?: Prisma.PaymentCreateNestedManyWithoutReceivedByInput
   expensesUpdated?: Prisma.ExpenseCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
 }
 
@@ -1399,6 +1487,8 @@ export type UserUncheckedCreateWithoutExpensesCreatedInput = {
   paymentsReceived?: Prisma.PaymentUncheckedCreateNestedManyWithoutReceivedByInput
   expensesUpdated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanUncheckedCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanUncheckedCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
 }
 
@@ -1427,6 +1517,8 @@ export type UserCreateWithoutExpensesUpdatedInput = {
   paymentsReceived?: Prisma.PaymentCreateNestedManyWithoutReceivedByInput
   expensesCreated?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
   settingsUpdated?: Prisma.ClubSettingCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
 }
 
@@ -1450,6 +1542,8 @@ export type UserUncheckedCreateWithoutExpensesUpdatedInput = {
   paymentsReceived?: Prisma.PaymentUncheckedCreateNestedManyWithoutReceivedByInput
   expensesCreated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
   settingsUpdated?: Prisma.ClubSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanUncheckedCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanUncheckedCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
 }
 
@@ -1489,6 +1583,8 @@ export type UserUpdateWithoutExpensesCreatedInput = {
   paymentsReceived?: Prisma.PaymentUpdateManyWithoutReceivedByNestedInput
   expensesUpdated?: Prisma.ExpenseUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
 }
 
@@ -1512,6 +1608,8 @@ export type UserUncheckedUpdateWithoutExpensesCreatedInput = {
   paymentsReceived?: Prisma.PaymentUncheckedUpdateManyWithoutReceivedByNestedInput
   expensesUpdated?: Prisma.ExpenseUncheckedUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUncheckedUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUncheckedUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
@@ -1546,6 +1644,8 @@ export type UserUpdateWithoutExpensesUpdatedInput = {
   paymentsReceived?: Prisma.PaymentUpdateManyWithoutReceivedByNestedInput
   expensesCreated?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
 }
 
@@ -1569,6 +1669,240 @@ export type UserUncheckedUpdateWithoutExpensesUpdatedInput = {
   paymentsReceived?: Prisma.PaymentUncheckedUpdateManyWithoutReceivedByNestedInput
   expensesCreated?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUncheckedUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUncheckedUpdateManyWithoutUpdatedByNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+}
+
+export type UserCreateWithoutLoansCreatedInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  status?: $Enums.UserStatus
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  membersCreated?: Prisma.MemberCreateNestedManyWithoutCreatedByInput
+  membersUpdated?: Prisma.MemberCreateNestedManyWithoutUpdatedByInput
+  gamesCreated?: Prisma.GameSessionCreateNestedManyWithoutCreatedByInput
+  gamesEnded?: Prisma.GameSessionCreateNestedManyWithoutEndedByInput
+  paymentsReceived?: Prisma.PaymentCreateNestedManyWithoutReceivedByInput
+  expensesCreated?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
+  expensesUpdated?: Prisma.ExpenseCreateNestedManyWithoutUpdatedByInput
+  settingsUpdated?: Prisma.ClubSettingCreateNestedManyWithoutUpdatedByInput
+  loansUpdated?: Prisma.LoanCreateNestedManyWithoutUpdatedByInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+}
+
+export type UserUncheckedCreateWithoutLoansCreatedInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  status?: $Enums.UserStatus
+  roleId: string
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  membersCreated?: Prisma.MemberUncheckedCreateNestedManyWithoutCreatedByInput
+  membersUpdated?: Prisma.MemberUncheckedCreateNestedManyWithoutUpdatedByInput
+  gamesCreated?: Prisma.GameSessionUncheckedCreateNestedManyWithoutCreatedByInput
+  gamesEnded?: Prisma.GameSessionUncheckedCreateNestedManyWithoutEndedByInput
+  paymentsReceived?: Prisma.PaymentUncheckedCreateNestedManyWithoutReceivedByInput
+  expensesCreated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
+  expensesUpdated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUpdatedByInput
+  settingsUpdated?: Prisma.ClubSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansUpdated?: Prisma.LoanUncheckedCreateNestedManyWithoutUpdatedByInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+}
+
+export type UserCreateOrConnectWithoutLoansCreatedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLoansCreatedInput, Prisma.UserUncheckedCreateWithoutLoansCreatedInput>
+}
+
+export type UserCreateWithoutLoansUpdatedInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  status?: $Enums.UserStatus
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  role: Prisma.RoleCreateNestedOneWithoutUsersInput
+  membersCreated?: Prisma.MemberCreateNestedManyWithoutCreatedByInput
+  membersUpdated?: Prisma.MemberCreateNestedManyWithoutUpdatedByInput
+  gamesCreated?: Prisma.GameSessionCreateNestedManyWithoutCreatedByInput
+  gamesEnded?: Prisma.GameSessionCreateNestedManyWithoutEndedByInput
+  paymentsReceived?: Prisma.PaymentCreateNestedManyWithoutReceivedByInput
+  expensesCreated?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
+  expensesUpdated?: Prisma.ExpenseCreateNestedManyWithoutUpdatedByInput
+  settingsUpdated?: Prisma.ClubSettingCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanCreateNestedManyWithoutCreatedByInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
+}
+
+export type UserUncheckedCreateWithoutLoansUpdatedInput = {
+  id?: string
+  email: string
+  passwordHash: string
+  firstName: string
+  lastName: string
+  phone?: string | null
+  status?: $Enums.UserStatus
+  roleId: string
+  lastLoginAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  membersCreated?: Prisma.MemberUncheckedCreateNestedManyWithoutCreatedByInput
+  membersUpdated?: Prisma.MemberUncheckedCreateNestedManyWithoutUpdatedByInput
+  gamesCreated?: Prisma.GameSessionUncheckedCreateNestedManyWithoutCreatedByInput
+  gamesEnded?: Prisma.GameSessionUncheckedCreateNestedManyWithoutEndedByInput
+  paymentsReceived?: Prisma.PaymentUncheckedCreateNestedManyWithoutReceivedByInput
+  expensesCreated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
+  expensesUpdated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUpdatedByInput
+  settingsUpdated?: Prisma.ClubSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanUncheckedCreateNestedManyWithoutCreatedByInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
+}
+
+export type UserCreateOrConnectWithoutLoansUpdatedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLoansUpdatedInput, Prisma.UserUncheckedCreateWithoutLoansUpdatedInput>
+}
+
+export type UserUpsertWithoutLoansCreatedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLoansCreatedInput, Prisma.UserUncheckedUpdateWithoutLoansCreatedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLoansCreatedInput, Prisma.UserUncheckedCreateWithoutLoansCreatedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLoansCreatedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLoansCreatedInput, Prisma.UserUncheckedUpdateWithoutLoansCreatedInput>
+}
+
+export type UserUpdateWithoutLoansCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  membersCreated?: Prisma.MemberUpdateManyWithoutCreatedByNestedInput
+  membersUpdated?: Prisma.MemberUpdateManyWithoutUpdatedByNestedInput
+  gamesCreated?: Prisma.GameSessionUpdateManyWithoutCreatedByNestedInput
+  gamesEnded?: Prisma.GameSessionUpdateManyWithoutEndedByNestedInput
+  paymentsReceived?: Prisma.PaymentUpdateManyWithoutReceivedByNestedInput
+  expensesCreated?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
+  expensesUpdated?: Prisma.ExpenseUpdateManyWithoutUpdatedByNestedInput
+  settingsUpdated?: Prisma.ClubSettingUpdateManyWithoutUpdatedByNestedInput
+  loansUpdated?: Prisma.LoanUpdateManyWithoutUpdatedByNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLoansCreatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membersCreated?: Prisma.MemberUncheckedUpdateManyWithoutCreatedByNestedInput
+  membersUpdated?: Prisma.MemberUncheckedUpdateManyWithoutUpdatedByNestedInput
+  gamesCreated?: Prisma.GameSessionUncheckedUpdateManyWithoutCreatedByNestedInput
+  gamesEnded?: Prisma.GameSessionUncheckedUpdateManyWithoutEndedByNestedInput
+  paymentsReceived?: Prisma.PaymentUncheckedUpdateManyWithoutReceivedByNestedInput
+  expensesCreated?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
+  expensesUpdated?: Prisma.ExpenseUncheckedUpdateManyWithoutUpdatedByNestedInput
+  settingsUpdated?: Prisma.ClubSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansUpdated?: Prisma.LoanUncheckedUpdateManyWithoutUpdatedByNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
+}
+
+export type UserUpsertWithoutLoansUpdatedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLoansUpdatedInput, Prisma.UserUncheckedUpdateWithoutLoansUpdatedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLoansUpdatedInput, Prisma.UserUncheckedCreateWithoutLoansUpdatedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLoansUpdatedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLoansUpdatedInput, Prisma.UserUncheckedUpdateWithoutLoansUpdatedInput>
+}
+
+export type UserUpdateWithoutLoansUpdatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  role?: Prisma.RoleUpdateOneRequiredWithoutUsersNestedInput
+  membersCreated?: Prisma.MemberUpdateManyWithoutCreatedByNestedInput
+  membersUpdated?: Prisma.MemberUpdateManyWithoutUpdatedByNestedInput
+  gamesCreated?: Prisma.GameSessionUpdateManyWithoutCreatedByNestedInput
+  gamesEnded?: Prisma.GameSessionUpdateManyWithoutEndedByNestedInput
+  paymentsReceived?: Prisma.PaymentUpdateManyWithoutReceivedByNestedInput
+  expensesCreated?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
+  expensesUpdated?: Prisma.ExpenseUpdateManyWithoutUpdatedByNestedInput
+  settingsUpdated?: Prisma.ClubSettingUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUpdateManyWithoutCreatedByNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLoansUpdatedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  roleId?: Prisma.StringFieldUpdateOperationsInput | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  membersCreated?: Prisma.MemberUncheckedUpdateManyWithoutCreatedByNestedInput
+  membersUpdated?: Prisma.MemberUncheckedUpdateManyWithoutUpdatedByNestedInput
+  gamesCreated?: Prisma.GameSessionUncheckedUpdateManyWithoutCreatedByNestedInput
+  gamesEnded?: Prisma.GameSessionUncheckedUpdateManyWithoutEndedByNestedInput
+  paymentsReceived?: Prisma.PaymentUncheckedUpdateManyWithoutReceivedByNestedInput
+  expensesCreated?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
+  expensesUpdated?: Prisma.ExpenseUncheckedUpdateManyWithoutUpdatedByNestedInput
+  settingsUpdated?: Prisma.ClubSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUncheckedUpdateManyWithoutCreatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
@@ -1592,6 +1926,8 @@ export type UserCreateWithoutSettingsUpdatedInput = {
   paymentsReceived?: Prisma.PaymentCreateNestedManyWithoutReceivedByInput
   expensesCreated?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutActorInput
 }
 
@@ -1615,6 +1951,8 @@ export type UserUncheckedCreateWithoutSettingsUpdatedInput = {
   paymentsReceived?: Prisma.PaymentUncheckedCreateNestedManyWithoutReceivedByInput
   expensesCreated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanUncheckedCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanUncheckedCreateNestedManyWithoutUpdatedByInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutActorInput
 }
 
@@ -1654,6 +1992,8 @@ export type UserUpdateWithoutSettingsUpdatedInput = {
   paymentsReceived?: Prisma.PaymentUpdateManyWithoutReceivedByNestedInput
   expensesCreated?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
 }
 
@@ -1677,6 +2017,8 @@ export type UserUncheckedUpdateWithoutSettingsUpdatedInput = {
   paymentsReceived?: Prisma.PaymentUncheckedUpdateManyWithoutReceivedByNestedInput
   expensesCreated?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUncheckedUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUncheckedUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
@@ -1701,6 +2043,8 @@ export type UserCreateWithoutAuditLogsInput = {
   expensesCreated?: Prisma.ExpenseCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanCreateNestedManyWithoutUpdatedByInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -1724,6 +2068,8 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   expensesCreated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutCreatedByInput
   expensesUpdated?: Prisma.ExpenseUncheckedCreateNestedManyWithoutUpdatedByInput
   settingsUpdated?: Prisma.ClubSettingUncheckedCreateNestedManyWithoutUpdatedByInput
+  loansCreated?: Prisma.LoanUncheckedCreateNestedManyWithoutCreatedByInput
+  loansUpdated?: Prisma.LoanUncheckedCreateNestedManyWithoutUpdatedByInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -1763,6 +2109,8 @@ export type UserUpdateWithoutAuditLogsInput = {
   expensesCreated?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUpdateManyWithoutUpdatedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -1786,6 +2134,8 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   expensesCreated?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUncheckedUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUncheckedUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUncheckedUpdateManyWithoutUpdatedByNestedInput
 }
 
 export type UserCreateManyRoleInput = {
@@ -1822,6 +2172,8 @@ export type UserUpdateWithoutRoleInput = {
   expensesCreated?: Prisma.ExpenseUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutActorNestedInput
 }
 
@@ -1845,6 +2197,8 @@ export type UserUncheckedUpdateWithoutRoleInput = {
   expensesCreated?: Prisma.ExpenseUncheckedUpdateManyWithoutCreatedByNestedInput
   expensesUpdated?: Prisma.ExpenseUncheckedUpdateManyWithoutUpdatedByNestedInput
   settingsUpdated?: Prisma.ClubSettingUncheckedUpdateManyWithoutUpdatedByNestedInput
+  loansCreated?: Prisma.LoanUncheckedUpdateManyWithoutCreatedByNestedInput
+  loansUpdated?: Prisma.LoanUncheckedUpdateManyWithoutUpdatedByNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutActorNestedInput
 }
 
@@ -1876,6 +2230,8 @@ export type UserCountOutputType = {
   expensesCreated: number
   expensesUpdated: number
   settingsUpdated: number
+  loansCreated: number
+  loansUpdated: number
   auditLogs: number
 }
 
@@ -1888,6 +2244,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   expensesCreated?: boolean | UserCountOutputTypeCountExpensesCreatedArgs
   expensesUpdated?: boolean | UserCountOutputTypeCountExpensesUpdatedArgs
   settingsUpdated?: boolean | UserCountOutputTypeCountSettingsUpdatedArgs
+  loansCreated?: boolean | UserCountOutputTypeCountLoansCreatedArgs
+  loansUpdated?: boolean | UserCountOutputTypeCountLoansUpdatedArgs
   auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
 }
 
@@ -1960,6 +2318,20 @@ export type UserCountOutputTypeCountSettingsUpdatedArgs<ExtArgs extends runtime.
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountLoansCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LoanWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountLoansUpdatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LoanWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AuditLogWhereInput
 }
@@ -1987,6 +2359,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   expensesCreated?: boolean | Prisma.User$expensesCreatedArgs<ExtArgs>
   expensesUpdated?: boolean | Prisma.User$expensesUpdatedArgs<ExtArgs>
   settingsUpdated?: boolean | Prisma.User$settingsUpdatedArgs<ExtArgs>
+  loansCreated?: boolean | Prisma.User$loansCreatedArgs<ExtArgs>
+  loansUpdated?: boolean | Prisma.User$loansUpdatedArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -2049,6 +2423,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   expensesCreated?: boolean | Prisma.User$expensesCreatedArgs<ExtArgs>
   expensesUpdated?: boolean | Prisma.User$expensesUpdatedArgs<ExtArgs>
   settingsUpdated?: boolean | Prisma.User$settingsUpdatedArgs<ExtArgs>
+  loansCreated?: boolean | Prisma.User$loansCreatedArgs<ExtArgs>
+  loansUpdated?: boolean | Prisma.User$loansUpdatedArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -2071,6 +2447,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     expensesCreated: Prisma.$ExpensePayload<ExtArgs>[]
     expensesUpdated: Prisma.$ExpensePayload<ExtArgs>[]
     settingsUpdated: Prisma.$ClubSettingPayload<ExtArgs>[]
+    loansCreated: Prisma.$LoanPayload<ExtArgs>[]
+    loansUpdated: Prisma.$LoanPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -2489,6 +2867,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   expensesCreated<T extends Prisma.User$expensesCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expensesCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   expensesUpdated<T extends Prisma.User$expensesUpdatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expensesUpdatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   settingsUpdated<T extends Prisma.User$settingsUpdatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$settingsUpdatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClubSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  loansCreated<T extends Prisma.User$loansCreatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$loansCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  loansUpdated<T extends Prisma.User$loansUpdatedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$loansUpdatedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3121,6 +3501,54 @@ export type User$settingsUpdatedArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.ClubSettingScalarFieldEnum | Prisma.ClubSettingScalarFieldEnum[]
+}
+
+/**
+ * User.loansCreated
+ */
+export type User$loansCreatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Loan
+   */
+  select?: Prisma.LoanSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Loan
+   */
+  omit?: Prisma.LoanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LoanInclude<ExtArgs> | null
+  where?: Prisma.LoanWhereInput
+  orderBy?: Prisma.LoanOrderByWithRelationInput | Prisma.LoanOrderByWithRelationInput[]
+  cursor?: Prisma.LoanWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LoanScalarFieldEnum | Prisma.LoanScalarFieldEnum[]
+}
+
+/**
+ * User.loansUpdated
+ */
+export type User$loansUpdatedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Loan
+   */
+  select?: Prisma.LoanSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Loan
+   */
+  omit?: Prisma.LoanOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LoanInclude<ExtArgs> | null
+  where?: Prisma.LoanWhereInput
+  orderBy?: Prisma.LoanOrderByWithRelationInput | Prisma.LoanOrderByWithRelationInput[]
+  cursor?: Prisma.LoanWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LoanScalarFieldEnum | Prisma.LoanScalarFieldEnum[]
 }
 
 /**

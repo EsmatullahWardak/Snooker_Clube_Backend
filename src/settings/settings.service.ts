@@ -36,12 +36,6 @@ export class SettingsService {
           updatedById: actorId,
         },
       });
-      if (dto.proPlayerDiscount !== undefined) {
-        await tx.membershipType.update({
-          where: { code: 'PRO_PLAYER' },
-          data: { discountPercent: dto.proPlayerDiscount },
-        });
-      }
       await this.audit.record(
         {
           actorId,

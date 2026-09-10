@@ -73,6 +73,11 @@ export type ExpenseCategory = Prisma.ExpenseCategoryModel
  */
 export type Expense = Prisma.ExpenseModel
 /**
+ * Model Loan
+ * 
+ */
+export type Loan = Prisma.LoanModel
+/**
  * Model ClubSetting
  * 
  */

@@ -1,12 +1,18 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { AuditService } from '../audit/audit.service';
-import { calculateBilling } from '../common/billing';
+import {
+  calculateBilling,
+  calculateSettlement,
+  type SettlementResult,
+} from '../common/billing';
 import { paginationMeta } from '../common/dto/pagination.dto';
+import { shiftDateKey, zonedStartOfDay } from '../common/time';
 import { GameStatus, Prisma, TableStatus } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { EndGameDto, GameQueryDto, StartGameDto } from './dto/game.dto';
@@ -19,6 +25,11 @@ const gameInclude = {
   payment: true,
 } satisfies Prisma.GameSessionInclude;
 
+const activeGameStatuses: GameStatus[] = [
+  GameStatus.IN_PROGRESS,
+  GameStatus.PAUSED,
+];
+
 @Injectable()
 export class GamesService {
   constructor(
@@ -27,15 +38,37 @@ export class GamesService {
   ) {}
 
   async list(query: GameQueryDto) {
+    const settings = await this.prisma.clubSetting.findUniqueOrThrow({
+      where: { id: 'default' },
+      select: { timezone: true },
+    });
     const where: Prisma.GameSessionWhereInput = {
-      ...(query.status ? { status: query.status } : {}),
+      ...(query.activeOnly
+        ? { status: { in: activeGameStatuses } }
+        : query.status
+          ? { status: query.status }
+          : {}),
       ...(query.memberId ? { memberId: query.memberId } : {}),
       ...(query.tableNumber ? { table: { number: query.tableNumber } } : {}),
       ...(query.from || query.to
         ? {
             startTime: {
-              ...(query.from ? { gte: new Date(query.from) } : {}),
-              ...(query.to ? { lte: new Date(query.to) } : {}),
+              ...(query.from
+                ? {
+                    gte: zonedStartOfDay(
+                      query.from.slice(0, 10),
+                      settings.timezone,
+                    ),
+                  }
+                : {}),
+              ...(query.to
+                ? {
+                    lt: zonedStartOfDay(
+                      shiftDateKey(query.to.slice(0, 10), 1),
+                      settings.timezone,
+                    ),
+                  }
+                : {}),
             },
           }
         : {}),
@@ -86,14 +119,17 @@ export class GamesService {
       async (tx) => {
         const [table, member, settings] = await Promise.all([
           tx.snookerTable.findUnique({ where: { id: dto.tableId } }),
-          tx.member.findFirst({
-            where: { id: dto.memberId, status: 'ACTIVE', deletedAt: null },
-            include: { membershipType: true },
-          }),
+          dto.memberId
+            ? tx.member.findFirst({
+                where: { id: dto.memberId, status: 'ACTIVE', deletedAt: null },
+                include: { membershipType: true },
+              })
+            : Promise.resolve(null),
           tx.clubSetting.findUnique({ where: { id: 'default' } }),
         ]);
         if (!table) throw new NotFoundException('Table not found.');
-        if (!member) throw new NotFoundException('Active member not found.');
+        if (dto.memberId && !member)
+          throw new NotFoundException('Active member not found.');
         if (!settings)
           throw new ConflictException('Club billing settings are missing.');
         if (table.status !== TableStatus.AVAILABLE)
@@ -110,12 +146,11 @@ export class GamesService {
           data: {
             code: `GAME-${Date.now()}-${randomUUID().slice(0, 6).toUpperCase()}`,
             tableId: table.id,
-            memberId: member.id,
+            memberId: member?.id,
             startTime: new Date(),
             hourlyRateSnapshot:
               table.hourlyRateOverride ?? settings.defaultHourlyRate,
-            membershipCodeSnapshot: member.membershipType.code,
-            discountPercentSnapshot: member.membershipType.discountPercent,
+            membershipCodeSnapshot: member?.membershipType.code,
             createdById: actorId,
           },
           include: gameInclude,
@@ -126,7 +161,11 @@ export class GamesService {
             action: 'GAME_STARTED',
             resourceType: 'GameSession',
             resourceId: game.id,
-            after: { tableNumber: table.number, memberId: member.id },
+            after: {
+              tableNumber: table.number,
+              memberId: member?.id ?? null,
+              sessionType: member ? 'MEMBER' : 'WALK_IN',
+            },
           },
           tx,
         );
@@ -141,25 +180,52 @@ export class GamesService {
       async (tx) => {
         const game = await tx.gameSession.findUnique({ where: { id } });
         if (!game) throw new NotFoundException('Game not found.');
-        if (game.status !== GameStatus.IN_PROGRESS)
-          throw new ConflictException('Only a live game can be ended.');
+        if (!activeGameStatuses.includes(game.status))
+          throw new ConflictException('Only an active game can be ended.');
 
         const endTime = new Date();
+        const finalPausedSeconds =
+          game.totalPausedSeconds +
+          (game.pausedAt
+            ? Math.max(
+                0,
+                Math.floor(
+                  (endTime.getTime() - game.pausedAt.getTime()) / 1000,
+                ),
+              )
+            : 0);
         const bill = calculateBilling(
           game.startTime,
-          endTime,
+          game.pausedAt ?? endTime,
           game.hourlyRateSnapshot,
-          game.discountPercentSnapshot,
+          game.totalPausedSeconds,
         );
+        let settlement: SettlementResult;
+        try {
+          settlement = calculateSettlement(
+            bill.baseAmount,
+            new Prisma.Decimal(dto.discountAmount),
+            dto.adjustedTotalAmount === undefined
+              ? undefined
+              : new Prisma.Decimal(dto.adjustedTotalAmount),
+          );
+        } catch (error) {
+          if (error instanceof RangeError)
+            throw new BadRequestException(error.message);
+          throw error;
+        }
         const completed = await tx.gameSession.updateMany({
-          where: { id, status: GameStatus.IN_PROGRESS },
+          where: { id, status: game.status },
           data: {
             status: GameStatus.COMPLETED,
             endTime,
+            pausedAt: null,
+            totalPausedSeconds: finalPausedSeconds,
             durationSeconds: bill.durationSeconds,
             baseAmount: bill.baseAmount,
-            discountAmount: bill.discountAmount,
-            finalAmount: bill.finalAmount,
+            discountAmount: settlement.discountAmount,
+            manualAdjustmentAmount: settlement.manualAdjustmentAmount,
+            finalAmount: settlement.finalAmount,
             paymentStatus: 'PAID',
             endedById: actorId,
           },
@@ -174,7 +240,7 @@ export class GamesService {
             receiptNumber: `RCP-${Date.now()}-${randomUUID().slice(0, 6).toUpperCase()}`,
             gameId: game.id,
             memberId: game.memberId,
-            amount: bill.finalAmount,
+            amount: settlement.finalAmount,
             method: dto.paymentMethod,
             status: 'PAID',
             receivedById: actorId,
@@ -194,16 +260,97 @@ export class GamesService {
             resourceId: game.id,
             after: {
               durationSeconds: bill.durationSeconds,
-              finalAmount: bill.finalAmount.toString(),
+              baseAmount: bill.baseAmount.toString(),
+              discountAmount: settlement.discountAmount.toString(),
+              manualAdjustmentAmount:
+                settlement.manualAdjustmentAmount.toString(),
+              finalAmount: settlement.finalAmount.toString(),
               receiptNumber: payment.receiptNumber,
             },
           },
           tx,
         );
-        return tx.gameSession.findUniqueOrThrow({
+        const completedGame = await tx.gameSession.findUniqueOrThrow({
           where: { id },
           include: gameInclude,
         });
+        return this.withLiveEstimate(completedGame);
+      },
+      { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+    );
+  }
+
+  async pause(id: string, actorId: string) {
+    return this.prisma.$transaction(
+      async (tx) => {
+        const game = await tx.gameSession.findUnique({ where: { id } });
+        if (!game) throw new NotFoundException('Game not found.');
+        if (game.status !== GameStatus.IN_PROGRESS)
+          throw new ConflictException('Only a running game can be paused.');
+        const pausedAt = new Date();
+        const updated = await tx.gameSession.updateMany({
+          where: { id, status: GameStatus.IN_PROGRESS },
+          data: { status: GameStatus.PAUSED, pausedAt },
+        });
+        if (updated.count !== 1)
+          throw new ConflictException('The game state changed. Please retry.');
+        await this.audit.record(
+          {
+            actorId,
+            action: 'GAME_PAUSED',
+            resourceType: 'GameSession',
+            resourceId: id,
+            after: { pausedAt: pausedAt.toISOString() },
+          },
+          tx,
+        );
+        const paused = await tx.gameSession.findUniqueOrThrow({
+          where: { id },
+          include: gameInclude,
+        });
+        return this.withLiveEstimate(paused);
+      },
+      { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+    );
+  }
+
+  async resume(id: string, actorId: string) {
+    return this.prisma.$transaction(
+      async (tx) => {
+        const game = await tx.gameSession.findUnique({ where: { id } });
+        if (!game) throw new NotFoundException('Game not found.');
+        if (game.status !== GameStatus.PAUSED || !game.pausedAt)
+          throw new ConflictException('Only a paused game can be resumed.');
+        const resumedAt = new Date();
+        const pausedSeconds = Math.max(
+          0,
+          Math.floor((resumedAt.getTime() - game.pausedAt.getTime()) / 1000),
+        );
+        const updated = await tx.gameSession.updateMany({
+          where: { id, status: GameStatus.PAUSED },
+          data: {
+            status: GameStatus.IN_PROGRESS,
+            pausedAt: null,
+            totalPausedSeconds: { increment: pausedSeconds },
+          },
+        });
+        if (updated.count !== 1)
+          throw new ConflictException('The game state changed. Please retry.');
+        await this.audit.record(
+          {
+            actorId,
+            action: 'GAME_RESUMED',
+            resourceType: 'GameSession',
+            resourceId: id,
+            after: { resumedAt: resumedAt.toISOString(), pausedSeconds },
+          },
+          tx,
+        );
+        const resumed = await tx.gameSession.findUniqueOrThrow({
+          where: { id },
+          include: gameInclude,
+        });
+        return this.withLiveEstimate(resumed);
       },
       { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
     );
@@ -214,17 +361,20 @@ export class GamesService {
       async (tx) => {
         const game = await tx.gameSession.findUnique({ where: { id } });
         if (!game) throw new NotFoundException('Game not found.');
-        if (game.status !== GameStatus.IN_PROGRESS)
-          throw new ConflictException('Only a live game can be cancelled.');
-        const cancelled = await tx.gameSession.update({
-          where: { id },
+        if (!activeGameStatuses.includes(game.status))
+          throw new ConflictException('Only an active game can be cancelled.');
+        const cancelled = await tx.gameSession.updateMany({
+          where: { id, status: game.status },
           data: {
             status: 'CANCELLED',
             endTime: new Date(),
             endedById: actorId,
           },
-          include: gameInclude,
         });
+        if (cancelled.count !== 1)
+          throw new ConflictException(
+            'The game state changed before it could be cancelled.',
+          );
         await tx.snookerTable.update({
           where: { id: game.tableId },
           data: { status: 'AVAILABLE' },
@@ -238,7 +388,10 @@ export class GamesService {
           },
           tx,
         );
-        return cancelled;
+        return tx.gameSession.findUniqueOrThrow({
+          where: { id },
+          include: gameInclude,
+        });
       },
       { isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
     );
@@ -248,23 +401,24 @@ export class GamesService {
     T extends {
       status: GameStatus;
       startTime: Date;
+      pausedAt: Date | null;
+      totalPausedSeconds: number;
       hourlyRateSnapshot: Prisma.Decimal;
-      discountPercentSnapshot: Prisma.Decimal;
     },
   >(game: T) {
-    if (game.status !== GameStatus.IN_PROGRESS)
+    if (!activeGameStatuses.includes(game.status))
       return { ...game, liveEstimate: null };
     const bill = calculateBilling(
       game.startTime,
-      new Date(),
+      game.pausedAt ?? new Date(),
       game.hourlyRateSnapshot,
-      game.discountPercentSnapshot,
+      game.totalPausedSeconds,
     );
     return {
       ...game,
       liveEstimate: {
         durationSeconds: bill.durationSeconds,
-        currentAmount: bill.finalAmount,
+        currentAmount: bill.baseAmount,
       },
     };
   }

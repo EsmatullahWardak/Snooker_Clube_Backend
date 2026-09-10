@@ -62,6 +62,7 @@ export const ModelName = {
   Payment: 'Payment',
   ExpenseCategory: 'ExpenseCategory',
   Expense: 'Expense',
+  Loan: 'Loan',
   ClubSetting: 'ClubSetting',
   AuditLog: 'AuditLog'
 } as const
@@ -134,7 +135,6 @@ export const MembershipTypeScalarFieldEnum = {
   id: 'id',
   code: 'code',
   name: 'name',
-  discountPercent: 'discountPercent',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -187,12 +187,14 @@ export const GameSessionScalarFieldEnum = {
   status: 'status',
   startTime: 'startTime',
   endTime: 'endTime',
+  pausedAt: 'pausedAt',
+  totalPausedSeconds: 'totalPausedSeconds',
   durationSeconds: 'durationSeconds',
   hourlyRateSnapshot: 'hourlyRateSnapshot',
   membershipCodeSnapshot: 'membershipCodeSnapshot',
-  discountPercentSnapshot: 'discountPercentSnapshot',
   baseAmount: 'baseAmount',
   discountAmount: 'discountAmount',
+  manualAdjustmentAmount: 'manualAdjustmentAmount',
   finalAmount: 'finalAmount',
   paymentStatus: 'paymentStatus',
   createdById: 'createdById',
@@ -254,6 +256,24 @@ export const ExpenseScalarFieldEnum = {
 } as const
 
 export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
+
+
+export const LoanScalarFieldEnum = {
+  id: 'id',
+  playerName: 'playerName',
+  fatherName: 'fatherName',
+  phoneNumber: 'phoneNumber',
+  email: 'email',
+  address: 'address',
+  amount: 'amount',
+  status: 'status',
+  createdById: 'createdById',
+  updatedById: 'updatedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LoanScalarFieldEnum = (typeof LoanScalarFieldEnum)[keyof typeof LoanScalarFieldEnum]
 
 
 export const ClubSettingScalarFieldEnum = {

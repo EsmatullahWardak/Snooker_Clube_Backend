@@ -6,7 +6,6 @@ import { RoleName } from '../generated/prisma/client';
 import { UpdateSettingsDto } from './dto/update-settings.dto';
 import { SettingsService } from './settings.service';
 
-@Roles(RoleName.ADMIN)
 @Controller('settings')
 export class SettingsController {
   constructor(private readonly settings: SettingsService) {}
@@ -17,6 +16,7 @@ export class SettingsController {
   }
 
   @Patch()
+  @Roles(RoleName.ADMIN)
   update(
     @Body() dto: UpdateSettingsDto,
     @CurrentUser() user: AuthenticatedUser,

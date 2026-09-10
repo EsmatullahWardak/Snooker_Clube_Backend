@@ -1,5 +1,6 @@
-import { Transform, Type } from 'class-transformer';
+import { Transform } from 'class-transformer';
 import {
+  IsBoolean,
   IsDateString,
   IsEmail,
   IsEnum,
@@ -145,6 +146,11 @@ export class MemberQueryDto extends PaginationDto {
   membershipCode?: MembershipCode;
 
   @IsOptional()
-  @Type(() => Boolean)
+  @Transform(({ value }: { value: unknown }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return value;
+  })
+  @IsBoolean()
   activeOnly?: boolean;
 }

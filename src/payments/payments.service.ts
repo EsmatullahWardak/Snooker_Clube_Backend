@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { paginationMeta } from '../common/dto/pagination.dto';
+import { shiftDateKey, zonedStartOfDay } from '../common/time';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { PaymentQueryDto } from './dto/payment-query.dto';
@@ -9,6 +10,10 @@ export class PaymentsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async list(query: PaymentQueryDto) {
+    const settings = await this.prisma.clubSetting.findUniqueOrThrow({
+      where: { id: 'default' },
+      select: { timezone: true },
+    });
     const where: Prisma.PaymentWhereInput = {
       method: query.method,
       status: query.status,
@@ -16,8 +21,22 @@ export class PaymentsService {
       ...(query.from || query.to
         ? {
             paymentDate: {
-              ...(query.from ? { gte: new Date(query.from) } : {}),
-              ...(query.to ? { lte: new Date(query.to) } : {}),
+              ...(query.from
+                ? {
+                    gte: zonedStartOfDay(
+                      query.from.slice(0, 10),
+                      settings.timezone,
+                    ),
+                  }
+                : {}),
+              ...(query.to
+                ? {
+                    lt: zonedStartOfDay(
+                      shiftDateKey(query.to.slice(0, 10), 1),
+                      settings.timezone,
+                    ),
+                  }
+                : {}),
             },
           }
         : {}),

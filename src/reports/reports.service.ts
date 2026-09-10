@@ -1,4 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  databaseDate,
+  shiftDateKey,
+  zonedDateKey,
+  zonedDateRange,
+  zonedStartOfDay,
+} from '../common/time';
 import { Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { ReportQueryDto } from './dto/report-query.dto';
@@ -8,7 +15,9 @@ export class ReportsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async dashboard() {
-    const day = this.kabulDay();
+    const timeZone = await this.clubTimeZone();
+    const todayKey = zonedDateKey(new Date(), timeZone);
+    const day = zonedDateRange(todayKey, timeZone);
     const [
       totalMembers,
       activeGames,
@@ -20,7 +29,9 @@ export class ReportsService {
       recentExpenses,
     ] = await Promise.all([
       this.prisma.member.count({ where: { deletedAt: null } }),
-      this.prisma.gameSession.count({ where: { status: 'IN_PROGRESS' } }),
+      this.prisma.gameSession.count({
+        where: { status: { in: ['IN_PROGRESS', 'PAUSED'] } },
+      }),
       this.prisma.snookerTable.groupBy({
         by: ['status'],
         _count: { _all: true },
@@ -28,12 +39,17 @@ export class ReportsService {
       this.prisma.payment.aggregate({
         where: {
           status: 'PAID',
-          paymentDate: { gte: day.instantStart, lt: day.instantEnd },
+          paymentDate: { gte: day.start, lt: day.end },
         },
         _sum: { amount: true },
       }),
       this.prisma.expense.aggregate({
-        where: { expenseDate: { gte: day.dateStart, lt: day.dateEnd } },
+        where: {
+          expenseDate: {
+            gte: databaseDate(todayKey),
+            lt: databaseDate(shiftDateKey(todayKey, 1)),
+          },
+        },
         _sum: { amount: true },
       }),
       this.prisma.gameSession.findMany({
@@ -80,22 +96,20 @@ export class ReportsService {
   }
 
   async financialSummary(query: ReportQueryDto) {
+    const timeZone = await this.clubTimeZone();
     const now = new Date();
-    const defaultFrom = new Date(
-      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1),
-    );
-    const from = query.from ? new Date(query.from) : defaultFrom;
-    const to = query.to ? new Date(query.to) : now;
-    if (from > to)
+    const todayKey = zonedDateKey(now, timeZone);
+    const fromKey = query.from?.slice(0, 10) ?? `${todayKey.slice(0, 7)}-01`;
+    const toKey = query.to?.slice(0, 10) ?? todayKey;
+    if (fromKey > toKey)
       throw new BadRequestException(
         'The from date must be before the to date.',
       );
 
-    const paymentTo = new Date(to);
-    paymentTo.setUTCHours(23, 59, 59, 999);
-    const expenseTo = new Date(
-      Date.UTC(to.getUTCFullYear(), to.getUTCMonth(), to.getUTCDate() + 1),
-    );
+    const from = zonedStartOfDay(fromKey, timeZone);
+    const toExclusive = zonedStartOfDay(shiftDateKey(toKey, 1), timeZone);
+    const expenseFrom = databaseDate(fromKey);
+    const expenseTo = databaseDate(shiftDateKey(toKey, 1));
     const [
       revenueAggregate,
       expenseAggregate,
@@ -106,39 +120,39 @@ export class ReportsService {
       completedDuration,
     ] = await Promise.all([
       this.prisma.payment.aggregate({
-        where: { status: 'PAID', paymentDate: { gte: from, lte: paymentTo } },
+        where: { status: 'PAID', paymentDate: { gte: from, lt: toExclusive } },
         _sum: { amount: true },
         _count: { _all: true },
       }),
       this.prisma.expense.aggregate({
-        where: { expenseDate: { gte: from, lt: expenseTo } },
+        where: { expenseDate: { gte: expenseFrom, lt: expenseTo } },
         _sum: { amount: true },
         _count: { _all: true },
       }),
       this.prisma.gameSession.groupBy({
         by: ['status'],
-        where: { startTime: { gte: from, lte: paymentTo } },
+        where: { startTime: { gte: from, lt: toExclusive } },
         _count: { _all: true },
       }),
       this.prisma.member.count({
-        where: { createdAt: { gte: from, lte: paymentTo }, deletedAt: null },
+        where: { createdAt: { gte: from, lt: toExclusive }, deletedAt: null },
       }),
       this.prisma.payment.groupBy({
         by: ['method'],
-        where: { status: 'PAID', paymentDate: { gte: from, lte: paymentTo } },
+        where: { status: 'PAID', paymentDate: { gte: from, lt: toExclusive } },
         _sum: { amount: true },
         _count: { _all: true },
       }),
       this.prisma.expense.groupBy({
         by: ['categoryId'],
-        where: { expenseDate: { gte: from, lt: expenseTo } },
+        where: { expenseDate: { gte: expenseFrom, lt: expenseTo } },
         _sum: { amount: true },
         _count: { _all: true },
       }),
       this.prisma.gameSession.aggregate({
         where: {
           status: 'COMPLETED',
-          startTime: { gte: from, lte: paymentTo },
+          startTime: { gte: from, lt: toExclusive },
         },
         _sum: { durationSeconds: true },
       }),
@@ -155,7 +169,7 @@ export class ReportsService {
     const expenses = expenseAggregate._sum.amount ?? new Prisma.Decimal(0);
 
     return {
-      period: { from, to },
+      period: { from: fromKey, to: toKey, timeZone },
       revenue: { amount: revenue, payments: revenueAggregate._count._all },
       expenses: { amount: expenses, records: expenseAggregate._count._all },
       netProfit: revenue.sub(expenses),
@@ -177,17 +191,11 @@ export class ReportsService {
     };
   }
 
-  private kabulDay() {
-    const offsetMilliseconds = 4.5 * 60 * 60 * 1000;
-    const shifted = new Date(Date.now() + offsetMilliseconds);
-    const date = shifted.toISOString().slice(0, 10);
-    const nextDate = new Date(`${date}T00:00:00.000Z`);
-    nextDate.setUTCDate(nextDate.getUTCDate() + 1);
-    return {
-      instantStart: new Date(`${date}T00:00:00+04:30`),
-      instantEnd: new Date(nextDate.getTime() - offsetMilliseconds),
-      dateStart: new Date(`${date}T00:00:00.000Z`),
-      dateEnd: nextDate,
-    };
+  private async clubTimeZone() {
+    const settings = await this.prisma.clubSetting.findUniqueOrThrow({
+      where: { id: 'default' },
+      select: { timezone: true },
+    });
+    return settings.timezone;
   }
 }
