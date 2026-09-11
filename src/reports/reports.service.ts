@@ -6,7 +6,7 @@ import {
   zonedDateRange,
   zonedStartOfDay,
 } from '../common/time';
-import { Prisma } from '../generated/prisma/client';
+import { LoanStatus, Prisma } from '../generated/prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { ReportQueryDto } from './dto/report-query.dto';
 
@@ -27,6 +27,9 @@ export class ReportsService {
       recentGames,
       recentPayments,
       recentExpenses,
+      todayPendingLoans,
+      todayPaidLoans,
+      todayLoanRecords,
     ] = await Promise.all([
       this.prisma.member.count({ where: { deletedAt: null } }),
       this.prisma.gameSession.count({
@@ -70,6 +73,46 @@ export class ReportsService {
         orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }],
         include: { category: true },
       }),
+      this.prisma.loan.aggregate({
+        where: {
+          status: LoanStatus.PENDING,
+          createdAt: { gte: day.start, lt: day.end },
+        },
+        _count: { _all: true },
+        _sum: { amount: true },
+      }),
+      this.prisma.loan.aggregate({
+        where: {
+          status: LoanStatus.PAID,
+          paidAt: { gte: day.start, lt: day.end },
+        },
+        _count: { _all: true },
+        _sum: { amount: true },
+      }),
+      this.prisma.loan.findMany({
+        where: {
+          OR: [
+            {
+              status: LoanStatus.PENDING,
+              createdAt: { gte: day.start, lt: day.end },
+            },
+            {
+              status: LoanStatus.PAID,
+              paidAt: { gte: day.start, lt: day.end },
+            },
+          ],
+        },
+        orderBy: { updatedAt: 'desc' },
+        select: {
+          id: true,
+          playerName: true,
+          amount: true,
+          status: true,
+          paidAt: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      }),
     ]);
 
     const revenue = todayRevenue._sum.amount ?? new Prisma.Decimal(0);
@@ -92,6 +135,15 @@ export class ReportsService {
       recentGames,
       recentPayments,
       recentExpenses,
+      todayLoans: {
+        summary: {
+          pendingCount: todayPendingLoans._count._all,
+          pendingAmount: todayPendingLoans._sum.amount ?? new Prisma.Decimal(0),
+          paidCount: todayPaidLoans._count._all,
+          paidAmount: todayPaidLoans._sum.amount ?? new Prisma.Decimal(0),
+        },
+        records: todayLoanRecords,
+      },
     };
   }
 

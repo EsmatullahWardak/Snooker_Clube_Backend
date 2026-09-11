@@ -19,6 +19,30 @@ describe('calculateBilling', () => {
     expect(result.baseAmount.toString()).toBe('0');
   });
 
+  it.each([
+    ['10.2', '20'],
+    ['11', '20'],
+    ['19', '20'],
+    ['20', '20'],
+    ['23', '30'],
+    ['1746.89', '1750'],
+  ])('rounds a timed charge of %s up to %s', (hourlyRate, expected) => {
+    const start = new Date('2026-08-27T10:00:00.000Z');
+    const end = new Date('2026-08-27T11:00:00.000Z');
+    const result = calculateBilling(start, end, new Decimal(hourlyRate));
+
+    expect(result.baseAmount.toString()).toBe(expected);
+  });
+
+  it('rounds an arbitrary playing duration up to the next multiple of ten', () => {
+    const start = new Date('2026-08-27T10:00:00.000Z');
+    const end = new Date('2026-08-27T11:20:45.000Z');
+    const result = calculateBilling(start, end, new Decimal(200));
+
+    expect(result.durationSeconds).toBe(4845);
+    expect(result.baseAmount.toString()).toBe('270');
+  });
+
   it('subtracts the flat discount from the cashier override', () => {
     const result = calculateSettlement(
       new Decimal(150),
@@ -31,7 +55,7 @@ describe('calculateBilling', () => {
     expect(result.finalAmount.toString()).toBe('120');
   });
 
-  it('calculates the final slip total from the displayed override and discount', () => {
+  it('rounds the override-minus-discount result up for the final slip', () => {
     const result = calculateSettlement(
       new Decimal(8.83),
       new Decimal(4),
@@ -39,7 +63,13 @@ describe('calculateBilling', () => {
     );
 
     expect(result.manualAdjustmentAmount.toString()).toBe('0.17');
-    expect(result.finalAmount.toString()).toBe('5');
+    expect(result.finalAmount.toString()).toBe('10');
+  });
+
+  it('keeps a large flat discount exact when the result is a multiple of ten', () => {
+    const result = calculateSettlement(new Decimal(1750), new Decimal(1000));
+
+    expect(result.finalAmount.toString()).toBe('750');
   });
 
   it('subtracts the flat discount from the base when no override is supplied', () => {

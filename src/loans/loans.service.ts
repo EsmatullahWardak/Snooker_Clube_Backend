@@ -120,9 +120,14 @@ export class LoansService {
             include: loanInclude,
           });
 
+        const paidAt = status === LoanStatus.PAID ? new Date() : null;
         const updated = await tx.loan.updateMany({
           where: { id, status: current.status },
-          data: { status, updatedById: actorId },
+          data: {
+            status,
+            updatedById: actorId,
+            paidAt,
+          },
         });
         if (updated.count !== 1)
           throw new ConflictException(
@@ -134,8 +139,11 @@ export class LoansService {
             action: 'LOAN_STATUS_CHANGED',
             resourceType: 'Loan',
             resourceId: id,
-            before: { status: current.status },
-            after: { status },
+            before: {
+              status: current.status,
+              paidAt: current.paidAt?.toISOString() ?? null,
+            },
+            after: { status, paidAt: paidAt?.toISOString() ?? null },
           },
           tx,
         );

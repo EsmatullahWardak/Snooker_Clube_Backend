@@ -290,10 +290,12 @@ model Loan {
   createdBy    User       @relation("LoanCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
   updatedById  String     @db.Uuid
   updatedBy    User       @relation("LoanUpdatedBy", fields: [updatedById], references: [id], onDelete: Restrict)
+  paidAt       DateTime?
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
   @@index([status, createdAt])
+  @@index([paidAt])
   @@index([playerName])
   @@index([phoneNumber])
   @@map("loans")

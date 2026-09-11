@@ -1691,6 +1691,7 @@ export const LoanScalarFieldEnum = {
   status: 'status',
   createdById: 'createdById',
   updatedById: 'updatedById',
+  paidAt: 'paidAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

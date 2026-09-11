@@ -11,6 +11,16 @@ export interface SettlementResult {
   finalAmount: Decimal;
 }
 
+const BILLING_INCREMENT = new Decimal(10);
+
+export function roundUpToNearestTen(amount: Decimal): Decimal {
+  if (!amount.isFinite() || amount.isNegative()) {
+    throw new RangeError('The amount to round must be a non-negative number.');
+  }
+
+  return amount.div(BILLING_INCREMENT).ceil().mul(BILLING_INCREMENT);
+}
+
 export function calculateBilling(
   startTime: Date,
   endTime: Date,
@@ -22,9 +32,7 @@ export function calculateBilling(
   );
   const durationSeconds = Math.max(0, elapsedSeconds - pausedSeconds);
   const hours = new Decimal(durationSeconds).div(3600);
-  const baseAmount = hours
-    .mul(hourlyRate)
-    .toDecimalPlaces(2, Decimal.ROUND_HALF_UP);
+  const baseAmount = roundUpToNearestTen(hours.mul(hourlyRate));
   return { durationSeconds, baseAmount };
 }
 
@@ -54,9 +62,7 @@ export function calculateSettlement(
     );
   }
 
-  const finalAmount = adjustedAmount
-    .sub(discountAmount)
-    .toDecimalPlaces(2, Decimal.ROUND_HALF_UP);
+  const finalAmount = roundUpToNearestTen(adjustedAmount.sub(discountAmount));
 
   return {
     discountAmount,
