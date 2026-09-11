@@ -157,13 +157,15 @@ async function main() {
   ]);
 
   for (let number = 1; number <= 8; number += 1) {
+    const isVip = number === 6;
     await prisma.snookerTable.upsert({
       where: { number },
-      update: { name: `Table ${number}` },
+      update: { name: isVip ? 'VIP Table 6' : `Table ${number}` },
       create: {
         number,
-        name: `Table ${number}`,
+        name: isVip ? 'VIP Table 6' : `Table ${number}`,
         status: TableStatus.AVAILABLE,
+        hourlyRateOverride: isVip ? 200 : undefined,
       },
     });
   }
